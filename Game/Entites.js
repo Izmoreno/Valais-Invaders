@@ -5,9 +5,10 @@ var bonusList = {};
 var bulletList = {};
 var malusList = {};
 var enemyList = {};
+var viesList = {};
 
 Player = function () {
-	var self = Actor('player', 'id', 50, 40, 30, 5, 200, 134, Img.player, 10, 1);
+	var self = Actor('player', 'id', 50, 350, 30, 5, 200, 134, Img.player, 3, 1);
 
 	self.updatePosition = function () {
 		if (self.pressingRight)
@@ -68,6 +69,7 @@ Entity = function (type, id, x, y, spdX, spdY, width, height, img) {
 		spdY: spdY,
 	};
 
+
 	self.update = function () {
 		self.updatePosition();
 		self.draw();
@@ -81,7 +83,9 @@ Entity = function (type, id, x, y, spdX, spdY, width, height, img) {
 		var y = self.y - self.height / 2;
 		ctx.drawImage(self.img, x, y);
 		ctx.restore();
+
 	}
+
 
 	self.getDistance = function (entity2) { //return distance (number)
 		var vx = self.x - entity2.x;
@@ -145,6 +149,34 @@ Actor = function (type, id, x, y, spdX, spdY, width, height, img, hp, atkSpd) {
 
 	return self;
 }
+
+Vies = function (id, x, y, spdX, spdY, width, height) {
+	var self = Entity('vie', id, x, y, spdX, spdY, width, height, Img.coeur);
+	console.log("vie" + id);
+	viesList[id] = self;
+
+}
+
+generateVie = function () {
+	//Math.random() returns a number between 0 and 1
+	var x0 = 30;
+	var x1 = 90;
+	var x2 = 150;
+	var y = 30;
+	var height = 44;
+	var width = 50;
+	var id0 = 1;
+	var id1 = 2;
+	var id2 = 3;
+	var spdX = 0;
+	var spdY = 0;
+
+	Vies(id0, x0, y, spdX, spdY, width, height);
+	Vies(id1, x1, y, spdX, spdY, width, height);
+	Vies(id2, x2, y, spdX, spdY, width, height);
+}
+
+
 
 
 
@@ -217,8 +249,7 @@ randomlyGenerateBonus = function () {
 	if (Math.random() < 0.6) {
 		var category = 'abricot';
 		var img = Img.abricot;
-	}
-	if (Math.random() < 0.9) {
+	} else if (Math.random() < 0.9) {
 		var category = 'wine';
 		var img = Img.wine;
 	} else {
