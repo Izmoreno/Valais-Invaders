@@ -86,19 +86,15 @@ update = function () {
 	if (pause) {
 		ctx.font = '100px Minehead DEMO';
 		ctx.fillText("Pause", 700, 400);
-		console.log(pause);
 		bggg.stop();
-		console.log(bggg);
 		return;
 
 
 	}
 
-	console.log(pause);
 
-	if (pause === false) {
+	else {
 		$(function () {
-			//Background
 			function deplace() {
 
 
