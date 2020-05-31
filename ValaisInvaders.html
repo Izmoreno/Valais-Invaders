@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Valais Invaders</title>
+</head>
+
+<body>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <div id="startMenu">
+        <div id="home">
+            <h1 id="gameTitle">Valais Invaders</h1>
+            <div><input type="text" id="playerName" placeholder="T'es le fils à qui ? (Pseudo)"></input></div>
+
+            <div class="btn-group">
+                <button class='button' id="chooseHeroButton" disabled>Adjeu, on démarre ou bien !</button>
+                <button class='button' id="infosButton">Euille, tu veux voir comment ?</button>
+            </div>
+        </div>
+        <div id="chooseHero" style="height: 100%">
+            <div id="chooseHeroTitle">
+                <h2 id="chooseHeroTextTitle">Choisis voir ta légende Valaisanne</h2>
+            </div>
+            <table style="width:100%">
+                <tr>
+                    <td class="heroOption">
+                        <h3>Christian Constantin</h3>
+                        <img class="hero" id="constantin" src="img/bus-FCSION.png" draggable="true" ondragstart="drag(event)" />
+                    </td>
+                    <td class="heroOption">
+                        <h3>Oskar Freysinger</h3>
+                        <img class="hero" id="freysinger" src="img/subaru.png" draggable="true" ondragstart="drag(event)" />
+                    </td>
+                    <td class="heroOption">
+                        <h3>Bernard Rappaz</h3>
+                        <img class="hero" id="rappaz" src="img/bus-HIPPIE.png" draggable="true" ondragstart="drag(event)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align: center">
+                        <div id="dropColumn">
+                            <div id="dropSpot" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                <p id="dropHint">Ecoute voir, t'as juste à glisser la bagnole que tu veux ençà</p>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class='button' id="backButton">Retour</button>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div id="startGameButtonZone">
+                            <button class='button' id="startGameButton" disabled>On part en piste ou quoi ?</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    <div id="gameZone">
+
+    </div>
+
+</body>
+
+<script src="javascript/entities.js"></script>
+<script src="javascript/game.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</html>
+
+<script>
+    var playerName;
+    var heroChoosedId;
+    //Managing different screens before game starts
+    $(document).ready(function() {
+
+        var chooseHeroElement;
+        var gameZoneElement;
+        var homeElement;
+
+        $("#playerName").on("keyup", function() {
+            if ($(this).val().length != 0) {
+                $("#chooseHeroButton").removeAttr("disabled");
+            } else {
+                $("#chooseHeroButton").prop('disabled', true);
+            }
+
+        });
+        $("#chooseHeroButton").click(function() {
+            //Save the player name
+            playerName = $("#playerName").val();
+            //Remove home screen and display choose hero screen
+            homeElement = $("#home").detach();
+            $("#startMenu").prepend(chooseHeroElement);
+            $("#chooseHeroTextTitle").text("Choisis voir ta légende Valaisanne, " + playerName + " !");
+        });
+        $("#backButton").click(function() {
+            //Reset of the screen when back is clicked
+            const dropSpot = document.getElementById("dropSpot");
+            dropSpot.textContent = "";
+            $("#dropSpot").append('<p id="dropHint">Ecoute voir, t\'as juste à glisser la bagnole que tu veux ençà</p>');
+            $("#startGameButton").prop('disabled', true);
+
+            //Return to start screen
+            chooseHeroElement = $("#chooseHero").detach();
+            homeElement.appendTo("#startMenu");
+        });
+        $("#startGameButton").click(function() {
+            //Remove start menu
+            chooseHeroElement = $("#startMenu").remove();
+            console.log(heroChoosedId);
+
+            if (heroChoosedId === "") {
+                location.reload();
+                return;
+            }
+
+            //Start game
+
+            $("body").prepend(gameZoneElement); //display game zone
+
+            player = Player();
+            startNewGame();
+            setInterval(update, 40);
+
+            drawMap = function() {
+
+                ctx.drawImage(Img.bg, 0, 0);
+
+            }
+
+
+        });
+
+        //Remove after defining back button
+        chooseHeroElement = $("#chooseHero").detach();
+        gameZoneElement = $("#gameZone").detach();
+
+
+    });
+
+    //Drag and Drop
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+        const dropSpot = document.getElementById("dropSpot");
+        dropSpot.textContent = "";
+    }
+
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var nodeCopy = document.getElementById(data).cloneNode(true);
+        nodeCopy.id = data + "1";
+        nodeCopy.draggable = false;
+        ev.target.appendChild(nodeCopy);
+        heroChoosedId = $("#dropSpot").children("img").attr("id");
+        console.log(heroChoosedId);
+        //Register hero choosed
+        switch (heroChoosedId) {
+            case "constantin1":
+                heroChoosedId = "constantin";
+                break;
+            case "freysinger1":
+                heroChoosedId = "freysinger";
+                break;
+            case "rappaz1":
+                heroChoosedId = "rappaz";
+                break;
+            default:
+                heroChoosedId = "";
+        }
+
+        $("#startGameButton").removeAttr('disabled');
+    }
+
+    //Location
+
+</script>
