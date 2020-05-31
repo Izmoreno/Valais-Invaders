@@ -14,6 +14,8 @@ var cptVie;
 var score = 0;
 var pause = false;
 
+var bggg;
+
 var Img = {};
 Img.player = new Image();
 Img.player.src = "img/subaru.png";
@@ -84,134 +86,161 @@ update = function () {
 	if (pause) {
 		ctx.font = '100px Minehead DEMO';
 		ctx.fillText("Pause", 700, 400);
+		console.log(pause);
+		bggg.stop();
+		console.log(bggg);
 		return;
-	}
 
-	ctx.clearRect(0, 0, WIDTH, HEIGHT);
-	ctx.font = '30px Minehead DEMO';
-
-	frameCount++;
-
-
-	/*if (frameCount % 50 === 0) //every 1 sec
-		randomlyGenerateStraw();*/
-
-	/*if (frameCount % 100 === 0) //every 4 sec
-		randomlyGenerateBonus();
-
-	if (frameCount % 75 === 0) //every 3 sec
-		randomlyGenerateMalus();
-
-	if (frameCount % 50 === 0) //every 1 sec
-		randomlyGenerateEnemy();*/
-
-	for (var key in viesList) {
-		viesList[key].update();
 
 	}
 
-	for (var key in strawList) {
-		strawList[key].update();
+	console.log(pause);
 
-		player.testCollision(strawList[key]);
-		if (collide) {
-			score += 10;
-			player.hp -= 1;
-			//delete viesList[player.hp+1];
+	if (pause === false) {
+		$(function () {
+			//Background
+			function deplace() {
+
+
+				$('#fond').animate({
+					left: '-=250'
+				}, 1400, 'linear', function () {
+					$('#fond').css('top', 0);
+					deplace();
+				});
+
+			};
+
+			deplace();
+		});
+
+
+		ctx.clearRect(0, 0, WIDTH, HEIGHT);
+		ctx.font = '30px Minehead DEMO';
+
+		frameCount++;
+
+
+		/*if (frameCount % 50 === 0) //every 1 sec
+			randomlyGenerateStraw();*/
+
+		/*if (frameCount % 100 === 0) //every 4 sec
+			randomlyGenerateBonus();
+
+		if (frameCount % 75 === 0) //every 3 sec
+			randomlyGenerateMalus();
+
+		if (frameCount % 50 === 0) //every 1 sec
+			randomlyGenerateEnemy();*/
+
+		for (var key in viesList) {
+			viesList[key].update();
+
+		}
+
+		for (var key in strawList) {
+			strawList[key].update();
+
+			player.testCollision(strawList[key]);
+			if (collide) {
+				score += 10;
+				player.hp -= 1;
+				//delete viesList[player.hp+1];
+
+			}
+
 
 		}
 
 
-	}
+		for (var key in bulletList) {
+			var b = bulletList[key];
+			b.update();
+
+			var toRemove = false;
+			b.timer++;
+			if (b.timer > 75) {
+				toRemove = true;
+			}
 
 
-	for (var key in bulletList) {
-		var b = bulletList[key];
-		b.update();
+			if (b.combatType == 'player') { //bullet was shot by player
+				for (var key2 in enemyList) {
+					if (b.testCollision(enemyList[key2])) {
+						toRemove = true;
+						score += 20;
+						delete enemyList[key2];
+					}
+				}
+			} else if (b.combatType == 'enemy') {
+				if (b.testCollision(player)) {
 
-		var toRemove = false;
-		b.timer++;
-		if (b.timer > 75) {
-			toRemove = true;
-		}
-
-
-		if (b.combatType == 'player') { //bullet was shot by player
-			for (var key2 in enemyList) {
-				if (b.testCollision(enemyList[key2])) {
 					toRemove = true;
-					score += 20;
-					delete enemyList[key2];
+					cptVie = player.hp - 1;
+					player.hp -= 1;
+					console.log(cptVie);
+					delete viesList[cptVie];
 				}
 			}
-		} else if (b.combatType == 'enemy') {
-			if (b.testCollision(player)) {
 
-				toRemove = true;
-				cptVie = player.hp - 1;
+			for (var key3 in strawList) {
+				if (b.testCollision(strawList[key3])) {
+					toRemove = true;
+					delete b;
+				}
+			}
+
+
+			if (toRemove) {
+				delete bulletList[key];
+			}
+		}
+
+		for (var key in bonusList) {
+			bonusList[key].update();
+			var isColliding = player.testCollision(bonusList[key]);
+			if (isColliding) {
+				if (bonusList[key].category == 'abricot')
+					score += 10;
+				if (bonusList[key].category == 'wine')
+					score += 25;
+				if (bonusList[key].category == 'cheese')
+					score += 50;
+				delete bonusList[key];
+			}
+		}
+
+		for (var key in malusList) {
+			malusList[key].update();
+			var isColliding = player.testCollision(malusList[key]);
+			if (isColliding) {
+				if (score - 30 < 0)
+					scrore = 0;
+				else
+					score -= 30;
+
+				delete malusList[key];
+			}
+		}
+
+		for (var key in enemyList) {
+			enemyList[key].update();
+			enemyList[key].performAttack(self);
+			var isColliding = player.testCollision(enemyList[key]);
+			if (isColliding) {
 				player.hp -= 1;
-				console.log(cptVie);
-				delete viesList[cptVie];
-			}
-		}
-
-		for (var key3 in strawList) {
-			if (b.testCollision(strawList[key3])) {
-				toRemove = true;
-				delete b;
 			}
 		}
 
 
-		if (toRemove) {
-			delete bulletList[key];
+		player.update();
+
+		ctx.fillText('Score : ' + score, 1300, 30);
+
+		//check highscore
+		if (score > higthscore) {
+			higthscore = score;
 		}
-	}
-
-	for (var key in bonusList) {
-		bonusList[key].update();
-		var isColliding = player.testCollision(bonusList[key]);
-		if (isColliding) {
-			if (bonusList[key].category == 'abricot')
-				score += 10;
-			if (bonusList[key].category == 'wine')
-				score += 25;
-			if (bonusList[key].category == 'cheese')
-				score += 50;
-			delete bonusList[key];
-		}
-	}
-
-	for (var key in malusList) {
-		malusList[key].update();
-		var isColliding = player.testCollision(malusList[key]);
-		if (isColliding) {
-			if (score - 30 < 0)
-				scrore = 0;
-			else
-				score -= 30;
-
-			delete malusList[key];
-		}
-	}
-
-	for (var key in enemyList) {
-		enemyList[key].update();
-		enemyList[key].performAttack(self);
-		var isColliding = player.testCollision(enemyList[key]);
-		if (isColliding) {
-			player.hp -= 1;
-		}
-	}
-
-
-	player.update();
-
-	ctx.fillText('Score : ' + score, 1300, 30);
-
-	//check highscore
-	if (score > higthscore) {
-		higthscore = score;
 	}
 }
 

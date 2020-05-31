@@ -1,16 +1,19 @@
 $(function () {
 
 	function deplace() {
-		//console.log(pause);
+		//if (!pause) {
 
-			$('#fond').animate({
+			bggg = $('#fond').animate({
 				left: '-=250'
 			}, 1400, 'linear', function () {
 				$('#fond').css('top', 0);
 				deplace();
 			});
+		//}
 	};
 
+
 	deplace();
+
 
 });
