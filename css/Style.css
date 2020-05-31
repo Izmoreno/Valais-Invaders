@@ -1,0 +1,84 @@
+#myCanvas {
+	z-index: 80;
+	position: absolute;
+
+}
+
+#fond {
+	margin-bottom: -5px;
+	z-index: 0;
+	position: relative;
+}
+
+#jeu {
+	width: 1500px;
+	height: 767px;
+	overflow: hidden;
+	position: relative;
+}
+
+#myCanvasGO {
+	z-index: 80;
+	position: absolute;
+	background-image: url(../img/backgo.png);
+
+}
+
+h1 {
+	font-family: "Minehead DEMO";
+	color: #FF0000;
+	font-size: 70pt;
+	text-align: center;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+h2 {
+	font-family: "Minehead DEMO";
+	color: #FF0000;
+	font-size: 50pt;
+	text-align: center;
+	margin: 0px;
+}
+
+h3 {
+	font-family: "Minehead DEMO";
+	color: #FF0000;
+	font-size: 30pt;
+	text-align: center;
+	margin: 0px;
+}
+
+p {
+	font-family: "Minehead DEMO";
+	color: #FF0000;
+	font-size: 30pt;
+	text-align: center;
+	margin: 0px;
+}
+
+#gameover {
+	background-image: url(../img/backgo.png);
+	width: 1500px;
+	height: 767px;
+	border: solid 2px;
+	display: none;
+	justify-content: space-between;
+}
+
+footer {
+	position: fixed;
+	bottom: 270px;;
+	margin-left: 30%;
+	margin-right: 30%;
+}
+
+button {
+	font-family: "Minehead DEMO";
+	font-size: 30pt;
+	background-color: #FF0000;
+	text-align: center;
+	color: azure;
+
+
+}
