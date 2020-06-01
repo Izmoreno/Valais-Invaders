@@ -3,7 +3,7 @@ var ctx = document.getElementById("myCanvas").getContext("2d");
 
 
 //pour player
-var HEIGHT = 680;
+var HEIGHT = 767;
 var WIDTH = 1500;
 //pour les autres entities
 var HEIGHT2 = 580;
@@ -99,7 +99,7 @@ update = function () {
 
 	//Background
 	$(function () {
-		deplace = function()  {
+		deplace = function () {
 
 			bggg = $('#fond').animate({
 				left: '-=250'
@@ -113,19 +113,19 @@ update = function () {
 		deplace();
 	});
 
-	if(frameCount % 150 === 0){
+	if (frameCount != 0 && frameCount % 150 === 0) {
 		score += 10;
 	}
 
 
 	ctx.clearRect(0, 0, WIDTH, HEIGHT);
-	ctx.font = '30px Minehead DEMO';
+	ctx.font = '50px Minehead DEMO';
 
 	frameCount++;
 
 
-	/*if (frameCount % 50 === 0) //every 1 sec
-		randomlyGenerateStraw();*/
+	if (frameCount % 50 === 0) //every 1 sec
+		randomlyGenerateStraw();
 
 	/*if (frameCount % 100 === 0) //every 4 sec
 		randomlyGenerateBonus();
@@ -148,12 +148,14 @@ update = function () {
 		if (collide) {
 			score += 10;
 			player.hp -= 1;
-			//delete viesList[player.hp+1];
+			delete viesList[player.hp + 1];
+			delete strawList[key];
 
 		}
 
 
 	}
+
 
 
 	for (var key in bulletList) {
@@ -238,7 +240,8 @@ update = function () {
 
 	player.update();
 
-	ctx.fillText('Score : ' + score, 1300, 30);
+	//ctx.clearRect(1200, 700, 400, 400);
+	ctx.fillText('Score : ' + score, 1300, 735);
 
 	//check highscore
 	if (score > higthscore) {
@@ -261,7 +264,6 @@ startNewGame = function () {
 	enemyList = {};
 	generateVie();
 	higthscore = 100;
-	ok = 0;
 
 	randomlyGenerateStraw();
 

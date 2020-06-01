@@ -42,7 +42,7 @@ Player = function () {
 				self.y += 10;
 		}
 		if (self.pressingUp) {
-			if (self.y > 120)
+			if (self.y > 70)
 				self.y = self.y - 10;
 		}
 		if (self.pressingSpace)
@@ -128,8 +128,6 @@ Entity = function (type, id, x, y, spdX, spdY, width, height, img) {
 	self.updatePosition = function () {
 		self.x += self.spdX;
 		self.y += self.spdY;
-
-
 	}
 
 	return self;
@@ -174,7 +172,7 @@ generateVie = function () {
 	var x0 = 30;
 	var x1 = 90;
 	var x2 = 150;
-	var y = 30;
+	var y = 725;
 	var height = 44;
 	var width = 50;
 	var id0 = 1;
