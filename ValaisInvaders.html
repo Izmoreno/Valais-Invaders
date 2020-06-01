@@ -6,12 +6,14 @@
 	<meta charset="utf-8">
 	<title>Valais Invader</title>
 	<link rel="stylesheet" href="css/Style.css" />
+	<script src="javascript/Score.js"></script>
 </head>
 
 <body>
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="jcanvas-master/dist/jcanvas.js"></script>
+
 
 	<div id="startMenu">
 		<div id="home">
@@ -71,15 +73,13 @@
 	<div id="gameZone">
 		<canvas id="myCanvas" width="1500" height="767" style="border:2px solid #000000;"></canvas>
 		<img id="fond" src="img/back.png">
-		<script src="javascript/Score.js"></script>
 
-		<script src="javascript/Background.js"></script>
 
 	</div>
 
 	<div id="gameover">
 		<h1>Valais Invader</h1>
-		<h2>Game Over !</h2>
+		<h2 id="timeSurvived">Tcheuuu ! C'est perdu ...</h2>
 		<h3>Score :</h3>
 		<p>20</p>
 		<footer>
@@ -97,6 +97,7 @@
 <script>
 	var playerName;
 	var heroChoosedId;
+	var time;
 	//Managing different screens before game starts
 	$(document).ready(function() {
 
