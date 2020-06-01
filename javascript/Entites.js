@@ -6,12 +6,27 @@ var bulletList = {};
 var malusList = {};
 var enemyList = {};
 var viesList = {};
-var ok =0;
+var ok = 0;
 var collide = false;
+var alive = true;
 
 
 Player = function () {
-	var self = Actor('player', 'id', 100, 350, 30, 5, 200, 134, Img.player, 3, 1);
+	//Generate the hero choosed
+	var self;
+	switch (heroChoosedId) {
+		case "constantin":
+			self = Actor('player', 'id', 100, 350, 30, 5, 200, 134, Img.constantin, 10, 1);
+			break;
+		case "freysinger":
+			self = Actor('player', 'id', 100, 350, 30, 5, 200, 134, Img.freysinger, 10, 1);
+			break;
+		case "rappaz":
+			self = Actor('player', 'id', 100, 350, 30, 5, 200, 134, Img.rappaz, 10, 1);
+			break;
+		default:
+			self = Actor('player', 'id', 100, 350, 30, 5, 200, 134, Img.freysinger, 10, 1);
+	}
 
 	self.updatePosition = function () {
 		if (self.pressingRight) {
@@ -38,15 +53,13 @@ Player = function () {
 	var super_update = self.update;
 	self.update = function () {
 		super_update();
-		if (self.hp <= 0 && ok===0) {
-			ok=1;
+		if (self.hp <= 0 && ok === 0) {
+			ok = 1;
 			var timeSurvived = Date.now() - timeWhenGameStarted;
 			console.log("You lost! You survived for " + timeSurvived + " ms.");
 			//startNewGame();
-			let end = document.getElementById("jeu");
-			let go = document.getElementById("gameover");
-			end.style.display = "none";
-			go.style.display = "block";
+			document.getElementById("gameZone").style.display = "none";
+			document.getElementById("gameover").style.display = "block";
 			addScore();
 			//draw hightscore
 		}

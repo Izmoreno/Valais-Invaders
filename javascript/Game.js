@@ -17,8 +17,13 @@ var pause = false;
 var bggg;
 
 var Img = {};
-Img.player = new Image();
-Img.player.src = "img/subaru.png";
+Img.constantin = new Image();
+Img.constantin.src = "img/bus-FCSION.png";
+Img.freysinger = new Image();
+Img.freysinger.src = "img/subaru.png";
+Img.rappaz = new Image();
+Img.rappaz.src = "img/bus-HIPPIE.png";
+Img.enemy = new Image();
 Img.enemy = new Image();
 Img.enemy.src = "img/enemy.png";
 Img.straw = new Image();
@@ -261,7 +266,8 @@ startNewGame = function () {
 }
 
 
-player = Player();
+player = new Player();
+
 startNewGame();
 
 setInterval(update, 40);
