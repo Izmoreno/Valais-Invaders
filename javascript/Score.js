@@ -13,3 +13,5 @@ scores.push(playerScore);
 //saving in localstorage
 localStorage.setItem('HighScoreList', JSON.stringify(scores));
 }
+
+localStorage.clear();

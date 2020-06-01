@@ -12,9 +12,10 @@ var timeWhenGameStarted = Date.now(); //return time in ms
 var frameCount = 0;
 var cptVie;
 var score = 0;
+var hightScore = 0;
 var pause = false;
 
-var bggg;
+var bg;
 
 var Img = {};
 Img.constantin = new Image();
@@ -92,8 +93,8 @@ update = function () {
 
 	if (pause) {
 		ctx.font = '100px Minehead DEMO';
-		ctx.fillText("Pause", 700, 400);
-		bggg.stop();
+		ctx.fillText("Pause", 700, 350);
+		bg.stop();
 		return;
 	}
 
@@ -101,7 +102,7 @@ update = function () {
 	$(function () {
 		deplace = function () {
 
-			bggg = $('#fond').animate({
+			bg = $('#fond').animate({
 				left: '-=250'
 			}, 1400, 'linear', function () {
 				$('#fond').css('top', 0);
@@ -114,7 +115,7 @@ update = function () {
 	});
 
 	if (frameCount != 0 && frameCount % 150 === 0) {
-		score += 10;
+		score += 50;
 	}
 
 
@@ -124,7 +125,7 @@ update = function () {
 	frameCount++;
 
 
-	if (frameCount % 50 === 0) //every 1 sec
+	if (frameCount % 200 === 0) //every 1 sec
 		randomlyGenerateStraw();
 
 	/*if (frameCount % 100 === 0) //every 4 sec
@@ -146,7 +147,7 @@ update = function () {
 
 		player.testCollision(strawList[key]);
 		if (collide) {
-			score += 10;
+			score -= 10;
 			player.hp -= 1;
 			delete viesList[player.hp + 1];
 			delete strawList[key];
@@ -240,13 +241,12 @@ update = function () {
 
 	player.update();
 
-	//ctx.clearRect(1200, 700, 400, 400);
-	ctx.fillText('Score : ' + score, 1300, 735);
+	ctx.fillText('Score : ' + score, 1300, 645);
 
-	//check highscore
-	if (score > higthscore) {
-		higthscore = score;
-	}
+
+	ctx.fillText('Best score : ' + hightScore, 700, 645);
+
+
 
 }
 
@@ -263,7 +263,8 @@ startNewGame = function () {
 	viesList = {};
 	enemyList = {};
 	generateVie();
-	higthscore = 100;
+
+
 
 	randomlyGenerateStraw();
 
