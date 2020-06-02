@@ -1,314 +1,250 @@
 var player;
 
-var strawList = {};
-var bonusList = {};
-var bulletList = {};
-var malusList = {};
-var enemyList = {};
+var apricotList = {};
+var cheeseList = {};
+var barrelList = {};
+var wineList = {};
+var papetList = {};
 var viesList = {};
 var ok = 0;
-var collide = false;
+var collid = false;
 var alive = true;
 
 
+
 Player = function () {
-	//Generate the hero choosed
-	var self;
-	switch (heroChoosedId) {
-		case "constantin":
-			self = Actor('player', 'id', 100, 350, 30, 5, 200, 134, Img.constantin, 10, 1);
-			break;
-		case "freysinger":
-			self = Actor('player', 'id', 100, 350, 30, 5, 200, 134, Img.freysinger, 10, 1);
-			break;
-		case "rappaz":
-			self = Actor('player', 'id', 100, 350, 30, 5, 200, 134, Img.rappaz, 10, 1);
-			break;
-		default:
-			self = Actor('player', 'id', 100, 350, 30, 5, 200, 134, Img.freysinger, 10, 1);
-	}
+    //Generate the hero choosed
+    var self;
+    switch (heroChoosedId) {
+        case "constantin":
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.constantin);
+            break;
+        case "freysinger":
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
+            break;
+        case "rappaz":
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.rappaz);
+            break;
+        default:
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
+    }
 
-	self.updatePosition = function () {
-		if (self.pressingRight) {
-			if (self.x < 1400)
-				self.x += 10;
-		}
-		if (self.pressingLeft) {
-			if (self.x > 100)
-				self.x = self.x - 10;
-		}
-		if (self.pressingDown) {
-			if (self.y < 675)
-				self.y += 10;
-		}
-		if (self.pressingUp) {
-			if (self.y > 70)
-				self.y = self.y - 10;
-		}
-		if (self.pressingSpace)
-			generateBullet(self);
-	}
+    self.updatePosition = function () {
+        if (self.pressingRight) {
+            if (self.x < 1400)
+                self.x += self.spdX;
+        }
+        if (self.pressingLeft) {
+            if (self.x > 100)
+                self.x = self.x - self.spdX;
+        }
+        if (self.pressingDown) {
+            if (self.y < 600)
+                self.y += self.spdY;
+        }
+        if (self.pressingUp) {
+            if (self.y > 70)
+                self.y = self.y - self.spdY;
+        }
+    }
+
+    var super_update = self.update;
+    self.update = function () {
+        super_update();
+        if (self.hp <= 0 && ok === 0) {
+            ok = 1;
+            var timeSurvived = Date.now() - timeWhenGameStarted;
+            console.log("You lost! You survived for " + timeSurvived + " ms.");
+            //startNewGame();
+            document.getElementById("gameZone").style.display = "none";
+            document.getElementById("gameover").style.display = "block";
+            pause = true;
+			
+		
+			
+			if(score < highScore){
+				document.getElementById("1").innerHTML="T'as trop fait la pichte ou quoi ? C'est pas ton plus beau score";
+				document.getElementById("2").innerHTML="Score : " + score;
+				
+				document.getElementById("3").innerHTML= "Best : " + highScore;
+			}
+			else{
+				document.getElementById("1").innerHTML="Mais tcheuuu beau ca ! ";
+				document.getElementById("2").innerHTML="Un nouveau record ";
+				document.getElementById("3").innerHTML=score;
+			}
+        }
+    }
 
 
-	var super_update = self.update;
-	self.update = function () {
-		super_update();
-		if (self.hp <= 0 && ok === 0) {
-			ok = 1;
-			var timeSurvived = Date.now() - timeWhenGameStarted;
-			console.log("You lost! You survived for " + timeSurvived + " ms.");
-			//startNewGame();
-			document.getElementById("gameZone").style.display = "none";
-			document.getElementById("gameover").style.display = "block";
-			addScore();
-			//draw hightscore
-		}
-	}
+    self.pressingDown = false;
+    self.pressingLeft = false;
+    self.pressingRight = false;
+    self.pressingSpace = false;
+    self.pressingUp = false;
 
-
-	self.pressingDown = false;
-	self.pressingLeft = false;
-	self.pressingRight = false;
-	self.pressingSpace = false;
-	self.pressingUp = false;
-
-	return self;
+    return self;
 }
 
 
 //player, enemy, bullet, bonus, malus, straw
 Entity = function (type, id, x, y, spdX, spdY, width, height, img) {
-	var self = {
-		type: type,
-		x: x,
-		y: y,
-		width: width,
-		height: height,
-		img: img,
-		spdX: spdX,
-		spdY: spdY,
-	};
+    var self = {
+        type: type,
+        x: x,
+        y: y,
+        id: id,
+        width: width,
+        height: height,
+        img: img,
+        spdX: spdX,
+        spdY: spdY,
+    };
+
+    self.update = function () {
+        self.updatePosition();
+
+        //remove object if it is out of the canevas
+        if (self.x === -100) {
+            switch (self.type) {
+                case "barrel":
+                    delete barrelList[self.id];
+                    break;
+                case "apricot":
+                    delete apricotList[self.id];
+                    break;
+                case "wine":
+                    delete wineList[self.id];
+                    break;
+                case "cheese":
+                    delete cheeseList[self.id];
+                    break;
+                case "papet":
+                    delete papetList[self.id];
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            self.draw();
+        }
+
+    }
 
 
-	self.update = function () {
-		self.updatePosition();
-		self.draw();
-	}
+    self.draw = function () {
+        ctx.save();
+
+        var x = self.x - self.width / 2;
+        var y = self.y - self.height / 2;
+        ctx.drawImage(self.img, x, y);
+        ctx.restore();
+    }
 
 
-	self.draw = function () {
-		ctx.save();
-
-		var x = self.x - self.width / 2;
-		var y = self.y - self.height / 2;
-		ctx.drawImage(self.img, x, y);
-		ctx.restore();
-
-	}
-
-
-	self.getDistance = function (entity2) { //return distance (number)
-		var vx = self.x - entity2.x;
-		var vy = self.y - entity2.y;
-		return Math.sqrt(vx * vx + vy * vy);
-	}
+    self.testCollision = function (entity2) { //return if colliding (true/false)
+        if (!(entity2.x > (self.x + self.width) ||
+                entity2.x < (self.x - entity2.width) ||
+                entity2.y > (self.y + self.height) ||
+                entity2.y < (self.y - entity2.height))) {
+            collide = true;
+        } else
+            collide = false;
+    }
 
 
-	self.testCollision = function (entity2) {
-		if (!(entity2.x > (self.x + self.width) ||
-				entity2.x < (self.x - entity2.width) ||
-				entity2.y > (self.y + self.height) ||
-				entity2.y < (self.y - entity2.height))) {
-			collide = true;
-		} else
-			collide = false;
+    self.updatePosition = function () {
+        self.x += self.spdX;
+        self.y += self.spdY;
+    }
 
-	}
-
-	self.updatePosition = function () {
-		self.x += self.spdX;
-		self.y += self.spdY;
-	}
-
-	return self;
+    return self;
 
 }
 
-//player, enemy
-Actor = function (type, id, x, y, spdX, spdY, width, height, img, hp, atkSpd) {
-	var self = Entity(type, id, x, y, spdX, spdY, width, height, img);
-
-	self.hp = hp;
-	self.attackCounter = 0;
-	self.angle = 0;
-
-	self.atkSpd = atkSpd;
-
-	var super_update = self.update;
-	self.update = function () {
-		super_update();
-		self.attackCounter += self.atkSpd;
-	}
-
-	self.performAttack = function () {
-		if (self.attackCounter > 50) { //every 1 sec
-			self.attackCounter = 0;
-			generateBullet(self);
-		}
-	}
-
-
-	return self;
-}
 
 Vies = function (id, x, y, spdX, spdY, width, height) {
-	var self = Entity('vie', id, x, y, spdX, spdY, width, height, Img.coeur);
-	viesList[id] = self;
+    var self = Entity('vie', id, x, y, spdX, spdY, width, height, Img.coeur);
+    viesList[id] = self;
 
 }
 
 generateVie = function () {
-	//Math.random() returns a number between 0 and 1
-	var x0 = 30;
-	var x1 = 90;
-	var x2 = 150;
-	var y = 645;
-	var height = 44;
-	var width = 50;
-	var id0 = 1;
-	var id1 = 2;
-	var id2 = 3;
-	var spdX = 0;
-	var spdY = 0;
+    //Math.random() returns a number between 0 and 1
+    var x0 = 30;
+    var x1 = 90;
+    var x2 = 150;
+    var y = 645;
+    var height = 44;
+    var width = 50;
+    var id0 = 1;
+    var id1 = 2;
+    var id2 = 3;
+    var spdX = 0;
+    var spdY = 0;
 
-	Vies(id0, x0, y, spdX, spdY, width, height);
-	Vies(id1, x1, y, spdX, spdY, width, height);
-	Vies(id2, x2, y, spdX, spdY, width, height);
+    Vies(id0, x0, y, spdX, spdY, width, height);
+    Vies(id1, x1, y, spdX, spdY, width, height);
+    Vies(id2, x2, y, spdX, spdY, width, height);
 }
 
-
-
-
-
-
-Enemy = function (id, x, y, spdX, spdY, width, height) {
-	var self = Actor('enemy', id, x, y, spdX, spdY, width, height, Img.enemy, 2, 1);
-	enemyList[id] = self;
-
+Apricot = function (id, xDestination, yDestination) {
+    var self = Entity("apricot", id, xDestination, yDestination, speedX, 0, 100, 100, Img.apricot);
+    apricotList[id] = self;
 }
-
-randomlyGenerateEnemy = function () {
-	//Math.random() returns a number between 0 and 1
-	var x = 1500;
-	var y = Math.random() * HEIGHT2;
-	var height = 73;
-	var width = 60;
-	var id = Math.random();
-	var spdX = -12;
-	var spdY = 0;
-	Enemy(id, x, y, spdX, spdY, width, height);
-
+Barrel = function (id, xDestination, yDestination) {
+    var self = Entity("barrel", id, xDestination, yDestination, speedX, 0, 100, 100, Img.barrel);
+    barrelList[id] = self;
 }
-
-Straw = function (id, x, y, spdX, spdY, width, height) {
-	var self = Entity('straw', id, x, y, spdX, spdY, width, height, Img.straw);
-
-	strawList[id] = self;
+Cheese = function (id, xDestination, yDestination) {
+    var self = Entity("cheese", id, xDestination, yDestination, speedX, 0, 100, 100, Img.cheese);
+    cheeseList[id] = self;
 }
-
-randomlyGenerateStraw = function () {
-	//Math.random() returns a number between 0 and 1
-	var height = 50;
-	var width = 50;
-	var x = 1500;
-	var y = Math.random() * HEIGHT2;
-	var y2 = Math.random() * HEIGHT2;
-	while (y2 < (y + height)) {
-		var y2 = Math.random() * HEIGHT2;
-	}
-
-	var id = Math.random();
-	var id2 = Math.random();
-	var spdX = -8;
-	var spdY = 0;
-
-
-	Straw(id, x, y, spdX, spdY, width, height);
-	Straw(id2, x, y2, spdX, spdY, width, height);
+Wine = function (id, xDestination, yDestination) {
+    var self = Entity("wine", id, xDestination, yDestination, speedX, 0, 100, 100, Img.wine);
+    wineList[id] = self;
 }
-
-
-Bonus = function (id, x, y, spdX, spdY, width, height, img, category) {
-	var self = Entity('bonus', id, x, y, spdX, spdY, width, height, img);
-
-	self.category = category;
-
-	bonusList[id] = self;
+Papet = function (id, xDestination, yDestination) {
+    var self = Entity("papet", id, xDestination, yDestination, speedX, 0, 100, 100, Img.papet);
+    papetList[id] = self;
 }
-
-randomlyGenerateBonus = function () {
-	//Math.random() returns a number between 0 and 1
-	var x = 1500;
-	var y = Math.random() * HEIGHT2;
-	var height = 10;
-	var width = 10;
-	var id = Math.random();
-	var spdX = -8;
-	var spdY = 0;
-
-	if (Math.random() < 0.6) {
-		var category = 'abricot';
-		var img = Img.abricot;
-	} else if (Math.random() < 0.9) {
-		var category = 'wine';
-		var img = Img.wine;
-	} else {
-		var category = 'fromage';
-		var img = Img.cheese;
-	}
-
-	Bonus(id, x, y, spdX, spdY, width, height, img, category);
-}
-
-Malus = function (id, x, y, spdX, spdY, width, height) {
-	var self = Entity('malus', id, x, y, spdX, spdY, width, height, Img.papet);
-	malusList[id] = self;
-}
-
-randomlyGenerateMalus = function () {
-	//Math.random() returns a number between 0 and 1
-	var x = 1500;
-	var y = Math.random() * HEIGHT2;
-	var height = 50;
-	var width = 50;
-	var id = Math.random();
-	var spdX = -8;
-	var spdY = 0;
+var barrelIdCount = 0;
+var apricotIdCount = 0;
+var cheeseIdCount = 0;
+var wineIdCount = 0;
+var papetIdCount = 0;
 
 
-	Malus(id, x, y, spdX, spdY, width, height);
-}
+createEntity = function (idObject, xDestination, yDestination) {
+    switch (idObject) {
+        case 1:
+            break;
+        case 2:
+            //Créer objet apricot avec image apricot.png
+            Apricot(apricotIdCount, xDestination, yDestination)
+            apricotIdCount++;
+            break;
+        case 3:
+            //Créer objet cheese avec image cheese.png
+            Cheese(cheeseIdCount, xDestination, yDestination)
+            cheeseIdCount++;
+            break;
+        case 4:
+            //Créer objet wine avec wine.png
+            Wine(wineIdCount, xDestination, yDestination)
+            wineIdCount++;
+            break;
+        case 5:
+            //Créer objet papet avec papet.png
+            Papet(papetIdCount, xDestination, yDestination)
+            papetIdCount++;
+            break;
+        case 6:
+            //Créer objet barrel avec barrel.png
+            Barrel(barrelIdCount, xDestination, yDestination);
+            barrelIdCount++;
+            break;
+    }
 
 
-Bullet = function (id, x, y, spdX, spdY, width, height, combatType) {
-	var self = Entity('bullet', id, x, y, spdX, spdY, width, height, Img.bullet);
-
-	self.timer = 0;
-	self.combatType = combatType;
-
-	bulletList[id] = self;
-}
-
-generateBullet = function (actor) {
-	//Math.random() returns a number between 0 and 1
-	var x = actor.x;
-	var y = actor.y;
-	var height = 24;
-	var width = 24;
-	var id = Math.random();
-	var angle = actor.angle;
-
-	var spdX = Math.cos(angle / 180 * Math.PI) * 5;
-	var spdY = Math.sin(angle / 180 * Math.PI) * 5;
-	Bullet(id, x, y, spdX, spdY, width, height, actor.type);
 }
