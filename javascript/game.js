@@ -22,7 +22,7 @@ var score = 0;
 var highScore = 0;
 var pause = false;
 
-var speedX = -8;
+var speedX = -1;
 var speedY = 0;
 
 var levelArray;
@@ -93,8 +93,9 @@ function generateLevel() {
         if (row <= levelArray[0].length) {
             setTimeout(function () {
                 readJSON();
-            }, 2000);
-
+            }, 1000);
+        }else{
+            //Stop Game because we finished it
         }
 
     }
@@ -134,11 +135,11 @@ function listenKeys() {
 
 update = function () {
 
-    if (pause) {
+    if (pause===true) {
         bg.stop();
         ctx.font = '100px Minehead DEMO';
         ctx.fillText("Pause", 650, 300);
-
+        //pause le level aussi
         return;
     }
     if(pause===false){
@@ -261,6 +262,6 @@ startNewGame = function () {
     moveBackground();
     generateVie();
     generateLevel();
-
+    setInterval(update, 5);
 
 }

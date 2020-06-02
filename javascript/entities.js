@@ -17,34 +17,34 @@ Player = function () {
     var self;
     switch (heroChoosedId) {
         case "constantin":
-            self = Entity('player', 'id', 300, 200, 30, 5, 200, 134, Img.constantin);
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.constantin);
             break;
         case "freysinger":
-            self = Entity('player', 'id', 300, 200, 30, 5, 200, 134, Img.freysinger);
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
             break;
         case "rappaz":
-            self = Entity('player', 'id', 300, 200, 30, 5, 200, 134, Img.rappaz);
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.rappaz);
             break;
         default:
-            self = Entity('player', 'id', 300, 200, 30, 5, 200, 134, Img.freysinger);
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
     }
 
     self.updatePosition = function () {
         if (self.pressingRight) {
             if (self.x < 1400)
-                self.x += 15;
+                self.x += self.spdX;
         }
         if (self.pressingLeft) {
             if (self.x > 100)
-                self.x = self.x - 15;
+                self.x = self.x - self.spdX;
         }
         if (self.pressingDown) {
             if (self.y < 600)
-                self.y += 15;
+                self.y += self.spdY;
         }
         if (self.pressingUp) {
             if (self.y > 70)
-                self.y = self.y - 15;
+                self.y = self.y - self.spdY;
         }
     }
 
