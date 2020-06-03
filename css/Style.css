@@ -201,7 +201,7 @@ h2 {
 	margin-top: 1px;
 }
 
-#gameover > h1 {
+#gameover, #win > h1 {
 	font-family: "Minehead DEMO";
 	color: #FF0000;
 	font-size: 70pt;
@@ -210,7 +210,7 @@ h2 {
 	margin-top: 0px;
 }
 
-#gameover > h2 {
+#gameover, #win > h2 {
 	font-family: "Minehead DEMO";
 	color: #FF0000;
 	font-size: 50pt;
@@ -225,7 +225,7 @@ h3 {
 	margin: 0px;
 }
 
-#gameover > p {
+#gameover, #win > p {
 	font-family: "Berlin Sans FB";
 	color: #FF0000;
 	font-size: 30pt;
@@ -236,7 +236,7 @@ h3 {
 
 
 
-#gameover {
+#gameover, #win {
 	background-image: url(../img/backMenu.png);
 	width: 1500px;
 	height: 670px;
