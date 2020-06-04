@@ -1,13 +1,19 @@
-var message = document.getElementById("resultMessage");
+var message ;
 
 function findLocation() {
+    message = document.getElementById("resultMessage");
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition, showError);
 
+
     } else {
         $("#geolocLoader").remove();
-        message.innerHTML = "Regarde-voir aller suici ! Faudrait peut-être choisir un navigateur plus récent ! ";
+
+        message.innerHTML= "Regarde-voir aller suici ! Faudrait peut-être choisir un navigateur plus récent ! ";
+        $("#startGameButton").removeAttr('disabled');
     }
+
+
 
 }
 
@@ -40,6 +46,7 @@ function showPosition(position) {
         if (error) {
             $("#geolocLoader").remove();
             message.innerHTML("Regarde-voir aller suici ! Faudrait peut-être choisir un navigateur plus récent ! ");
+            $("#startGameButton").removeAttr('disabled');
             return;
         }
         //result is in json
@@ -50,6 +57,7 @@ function showPosition(position) {
         //console.log(address);
 
         isInValaisTest(region);
+        $("#startGameButton").removeAttr('disabled');
     })
 }
 
@@ -63,7 +71,8 @@ function isInValaisTest(region) {
             break;
         case "Vaud":
             //Game over
-            message.innerHTML = "Vaudois ! Si tu crois que t'es autorisé à défendre les couleurs valaisannes... ";
+            isVaudois = true;
+            message.innerHTML = "Vaudois ! Non mais tu plaisantes ou bien...Vas jouer ailleurs ! ";
             score = -1000;
             break;
         case "Genève":
@@ -81,6 +90,7 @@ function isInValaisTest(region) {
 
 function showError(error) {
     $("#geolocLoader").remove();
+    $("#startGameButton").removeAttr('disabled');
     switch (error.code) {
         case error.PERMISSION_DENIED:
             message.innerHTML = "Mais ça te joue ? T'as peur qu'on te pique tes vaches ? J'espère que t'as pris le Fendant quand même..."

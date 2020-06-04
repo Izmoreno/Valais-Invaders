@@ -2,33 +2,51 @@
 <html>
 
 <head>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<meta charset="utf-8">
-	<title>Valais Invaders</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <title>Valais Invaders</title>
 </head>
 
 <body>
-	<div id="win">
-		<h1>Valais Invaders</h1>
-		<h2>Bien joué mon gars ! L'ennemi est vaincu !</h2>
-		<h4 id="4"></h4>
-		<h4 id="5"></h4>
-		<h4 id="6" style="font-size: 50px"></h4>
-		<footer>
-			<button type="rejouer" onclick=window.location.href='ValaisInvaders.html'>On y retourne ou bien ?</button>
-		</footer>
-	</div>
-	<div id="gameover">
-		<h1>Valais Invaders</h1>
-		<h2>C'est perdu ...</h2>
-		<h4 id="1"></h4>
-		<h4 id="2"></h4>
-		<h4 id="3" style="font-size: 50px"></h4>
-		<footer>
-			<button type="rejouer" onclick=window.location.href='ValaisInvaders.html'>On y retourne ou bien ?</button>
-		</footer>
-	</div>
+    <div id="win" hidden>
+        <h1>Valais Invaders</h1>
+        <h2>Bien joué mon gars ! L'ennemi est vaincu !</h2>
+        <h4 id="4"></h4>
+        <h4 id="5"></h4>
+        <h4 id="6" style="font-size: 50px"></h4>
+        <footer>
+            <button type="rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
+        </footer>
+    </div>
+    <div id="gameover" hidden>
+        <h1>Valais Invaders</h1>
+        <h2>C'est perdu ...</h2>
+        <h4 id="1"></h4>
+        <h4 id="2"></h4>
+        <h4 id="3" style="font-size: 50px"></h4>
+        <footer>
+            <button type="rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
+        </footer>
+    </div>
 
 </body>
 
 </html>
+<script>
+$(document).ready(function() {
+    if (sessionStorage.isGameOver==="true") {
+        //Case game over
+        $("#win").detach();
+        $("#gameover").removeAttr("hidden");
+
+        $("#2").append("Ton score est : "+sessionStorage.score)
+        sessionStorage.clear();
+    }else{
+        //Case win
+        $("#gameover").detach();
+        $("#win").removeAttr("hidden");
+    }
+});
+
+</script>

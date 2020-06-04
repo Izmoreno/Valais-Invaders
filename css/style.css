@@ -1,5 +1,5 @@
 * {
-    font-family: "Berlin Sans FB";
+    font-family: "Rockwell";
 }
 
 #startMenu {
@@ -23,19 +23,17 @@
     padding: 10px 20px;
     font-size: 20px;
     border-radius: 15px;
-	width: 215px;
+	width: 250px;
     border-color: #FF0000;
 }
 
 #gameTitle {
     color: #FF0000;
     font-size: 98px;
-    font-family: "Minehead DEMO";
     margin: 100px;
 }
 
 button {
-	font-family: "Berlin Sans FB";
 	padding: 15px 25px;
 	margin-bottom: 30px;
 	font-size: 24px;
@@ -136,6 +134,7 @@ h2 {
 #mapid {
     height: 400px;
     width: 600px;
+    margin-bottom: 15px;
 }
 .loader {
     border: 16px solid #ffffff;
@@ -193,7 +192,6 @@ h2 {
 }
 
 h1 {
-	font-family: "Minehead DEMO";
 	color: #FF0000;
 	font-size: 70pt;
 	text-align: center;
@@ -203,7 +201,6 @@ h1 {
 
 
 h2 {
-	font-family: "Minehead DEMO";
 	color: #FF0000;
 	font-size: 50pt;
 	text-align: center;
@@ -212,16 +209,14 @@ h2 {
 
 
 h3 {
-	font-family: "Berlin Sans FB";
 	font-style: normal;
-	font-size: 16pt;
+	font-size: 24pt;
 	margin: 0px;
 }
 
 h4 {
-	font-family: "Berlin Sans FB";
 	font-style: normal;
-	font-size: 12pt;
+	font-size: 16pt;
 	margin: 0px;
 }
 
@@ -233,13 +228,12 @@ h4 {
 	width: 1500px;
 	height: 670px;
 	border: solid 2px;
-	display: none;
 	justify-content: space-between;
 }
 
 footer {
 	position: fixed;
-	bottom: 270px;;
+	bottom: 270px;
 	margin-left: 30%;
 	margin-right: 30%;
 }

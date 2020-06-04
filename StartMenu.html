@@ -11,13 +11,17 @@
 	<link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css" integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g==" crossorigin="">
 	<script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js" integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA==" crossorigin=""></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="javascript/startmenu.js"></script>
+<script src="javascript/geolocation.js"></script>
+
 	<meta charset="utf-8">
 	<title>Valais Invaders</title>
 </head>
 
 <body>
 
-	<div id="startMenu">
+	<div id="startMenu" hidden>
 		<div id="home">
 			<h1 id="gameTitle">Valais Invaders</h1>
 			<div><input type="text" id="playerName" placeholder="T'es le fils à qui ? (Pseudo)"></input></div>
@@ -74,8 +78,8 @@
 			<h2>Le "T'as où les vaches ?" Test</h2>
 			<div class="loader" id="geolocLoader"></div>
 			<div id="mapid"></div>
-			<h3 id="resultMessage"></h3>
-			<button class='button' id="startGameButton">On part en piste ou quoi ?</button>
+			<h3 id="resultMessage"> </h3>
+			<button class='button' id="startGameButton" disabled>On part en piste ou quoi ?</button>
 		</div>
 
 		<div id="infosScreen" hidden>
@@ -83,7 +87,9 @@
 			<table id="infosTable" style="height: 450px;">
 				<tr>
 					<td style="width: 50%;">
-						<h3>Nos terres sont plus que jamais menacées. Des envahisseurs vaudois essaient de s'approprier notre magnifique patrimoine Valaisan. Il est de ton ressort des les en empêcher. Pour se faire, tu devras choisir un héro parmis nos trois légendes : Christian Constantin, Oskar Freysinger et Bernard Rappaz.</h3>
+						<h4>Nos terres sont plus que jamais menacées. Des envahisseurs vaudois essaient de s'approprier notre magnifique patrimoine Valaisan. Il est de ton ressort des les en empêcher. Pour se faire, tu devras choisir un héro parmis nos trois légendes : Christian Constantin, Oskar Freysinger et Bernard Rappaz.</h4>
+                        <br/>
+                        <h4>Attention, tu devras éviter les tonneaux de "vin" vaudois. Pour te donner des points et de la force, tu pourras ramasser les bouteilles de Fendant, les fromages et les abricots.</h4>
 						<div id="controlKeys">
 							<div id=firstline>
 								<div class="controlKey" id="wKey">
@@ -105,16 +111,55 @@
 
 					</td>
 					<td style="width: 50%;">
-						<h3>Attention, tu devras éviter les tonneaux de "vin" vaudois. Pour te donner des points et de la force, tu pourras ramasser les bouteilles de Fendant, les fromages et les abricots.</h3>
+                         <table id="itemsTable">
+                            <tr>
+                                <td>
+                                    <img style="width: 75%; height: 75%;" src="img/barrel.png"/>
+                                </td>
+                                <td >
+                                    <h1>-<img src="img/coeur.png"/></h1>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                     <img style="width: 75%; height: 75%;" src="img/papet.png"/>
+                                </td>
+                                <td>
+                                    <h1>-50pts</h1>
+                                </td>
+                                <td>
+                                     <img style="width: 75%; height: 75%;" src="img/cheese.png"/>
+                                </td>
+                                <td>
+                                    <h1>+20pts</h1>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                     <img style="width: 75%; height: 75%;" src="img/apricot.png"/>
+                                </td>
+                                <td>
+                                    <h1>+20pts</h1>
+                                </td>
+                                <td>
+                                     <img style="width: 75%; height: 75%;" src="img/wine.png"/>
+                                </td>
+                                <td>
+                                    <h1>+100pts</h1>
+                                </td>
+                            </tr>
+                        </table>
+
 					</td>
+
 				</tr>
 			</table>
 			<button class='button' id="infosBackButton">Retour</button>
 		</div>
 	</div>
 </body>
-<script src="javascript/startgame.js"></script>
-<script src="javascript/geolocation.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 
 </html>
