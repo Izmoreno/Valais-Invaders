@@ -1,5 +1,5 @@
 * {
-    font-family: sans-serif;
+    font-family: "Berlin Sans FB";
 }
 
 #startMenu {
@@ -23,28 +23,30 @@
     padding: 10px 20px;
     font-size: 20px;
     border-radius: 15px;
-    border-color: #FF0000
+	width: 215px;
+    border-color: #FF0000;
 }
 
 #gameTitle {
     color: #FF0000;
     font-size: 98px;
-    font-family: sans-serif;
+    font-family: "Minehead DEMO";
     margin: 100px;
 }
 
 button {
-    padding: 15px 25px;
-    margin-bottom: 30px;
-    font-size: 24px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    outline: none;
-    color: #fff;
-    background-color: #FF0000;
-    border: none;
-    border-radius: 15px;
+	font-family: "Berlin Sans FB";
+	padding: 15px 25px;
+	margin-bottom: 30px;
+	font-size: 24px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #fff;
+	background-color: #FF0000;
+	border: none;
+	border-radius: 15px;
 
 }
 
@@ -190,8 +192,43 @@ h2 {
     margin-top: 1px;
 }
 
+h1 {
+	font-family: "Minehead DEMO";
+	color: #FF0000;
+	font-size: 70pt;
+	text-align: center;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
 
-#gameover {
+
+h2 {
+	font-family: "Minehead DEMO";
+	color: #FF0000;
+	font-size: 50pt;
+	text-align: center;
+	margin: 0px;
+}
+
+
+h3 {
+	font-family: "Berlin Sans FB";
+	font-style: normal;
+	font-size: 16pt;
+	margin: 0px;
+}
+
+h4 {
+	font-family: "Berlin Sans FB";
+	font-style: normal;
+	font-size: 12pt;
+	margin: 0px;
+}
+
+
+
+
+#gameover, #win {
 	background-image: url(../img/backMenu.png);
 	width: 1500px;
 	height: 670px;

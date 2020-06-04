@@ -58,7 +58,6 @@ Player = function () {
             //startNewGame();
             document.getElementById("gameZone").style.display = "none";
             document.getElementById("gameover").style.display = "block";
-            addScore();
             //draw highscore
         }
     }
@@ -200,6 +199,8 @@ var apricotIdCount = 0;
 var cheeseIdCount = 0;
 var wineIdCount = 0;
 var papetIdCount = 0;
+
+
 createEntity = function (idObject, xDestination, yDestination) {
     switch (idObject) {
         case 1:
