@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <title>Valais Invaders</title>
+</head>
+
+<body>
+    <div id="win" hidden>
+        <h1>Valais Invaders</h1>
+        <h2>Bien joué mon gars ! L'ennemi est vaincu !</h2>
+        <div class="h4">
+            <h4 id="4" class="endMessages"></h4>
+            <h4 id="5" class="endMessages"></h4>
+            <h4 id="6" class="endMessages"></h4>
+        </div>
+        <button class="button rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
+    </div>
+    <div id="gameover" hidden>
+        <h1>Valais Invaders</h1>
+        <h2>C'est perdu ...</h2>
+        <div class="h4">
+            <h4 id="1" class="endMessages"></h4>
+            <h4 id="2" class="endMessages"></h4>
+            <h4 id="3" class="endMessages"></h4>
+        </div>
+        <button class="button rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
+    </div>
+    <div id="vaudois" hidden>
+        <h1>Valais Invaders</h1>
+        <h2>Ca va pas le faire là...</h2>
+        <div class="h4">
+            <h4 id="4" class="endMessages">Va voir ailleurs, cul de Vaudois !</h4>
+        </div>
+        <button class="button rejouer" onclick=window.location.href='StartMenu.html' disabled>On y retourne ou bien ?</button>
+    </div>
+
+</body>
+
+</html>
+<script>
+    //Audios
+    let loser = new Audio();
+    let marignan = new Audio();
+    let musictheme = new Audio();
+
+    loser.src = "audio/loser.wav";
+    marignan.src = "audio/marignan.wav";
+    musictheme.src = "audio/musictheme.wav";
+
+    $(document).ready(function() {
+        if (sessionStorage.isVaudois === "true") {
+            $("#win").detach();
+            $("#gameover").detach();
+            $("#vaudois").removeAttr("hidden");
+            loser.play();
+            loser.loop = true;
+        } else {
+            if (sessionStorage.isGameOver === "true") {
+                //Case game over
+                $("#win").detach();
+                $("#gameover").removeAttr("hidden");
+                musictheme.play();
+                musictheme.loop = true;
+                //new highscore
+                if (sessionStorage.bestScore === "true") {
+                    $("#1").append("Tcheuuu le record ici !");
+                    $("#2").append("Ca c'est beau  : " + sessionStorage.score);
+
+                } else {
+                    $("#1").append("Euille t'as trop fait la pichte ou quoi ?");
+                    $("#2").append("C'est quoi ce score ? " + sessionStorage.score);
+                    $("#3").append("Tu nous avais habitué à mieux ... Meilleur score : " + localStorage.highscore);
+                }
+
+                sessionStorage.clear();
+            } else {
+                //Case win
+                $("#gameover").detach();
+                $("#win").removeAttr("hidden");
+                $("#4").append("Grâce à toi notre beau Valais se porte mieux !");
+                $("#5").append("Et avec un score pareil :   " + sessionStorage.score);
+                $("#6").append("Les vaudois n'ont qu'à bien se tenir ! ");
+                marignan.play();
+                marignan.loop = true;
+            }
+        }
+    });
+
+</script>

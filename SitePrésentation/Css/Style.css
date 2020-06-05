@@ -1,0 +1,341 @@
+/*------------------------------------------------------------------------------------------
+/format écran desktop
+/*----------------------------------------------------------------------------------------*/
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+
+header {
+    text-align: center;
+    padding: 20px 0 0;
+    background: #FAFAFA;
+}
+
+
+hr {
+    padding: 0px;
+    margin: 0px;
+}
+
+
+h1 {
+    font-family: "Rockwell";
+    color: #FF0000;
+    display: block;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-bottom: 10px;
+    font-size: 60pt;
+    text-align: center;
+    background: #FAFAFA;
+    word-spacing: 7px;
+    letter-spacing: 2px;
+}
+
+h2 {
+    font-family: "Rockwell";
+    font-size: 30px;
+    color: #FF0000;
+    word-spacing: 7px;
+    letter-spacing: 2px;
+}
+
+h3 {
+    font-family: "Rockwell";
+    font-size: 20px;
+    color: #FF0000;
+    word-spacing: 7px;
+    letter-spacing: 2px;
+}
+
+
+h4 {
+
+    padding-left: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    background: #FF0000;
+    color: white;
+    word-spacing: 7px;
+    letter-spacing: 2px;
+    font-family: "Rockwell";
+}
+
+p {
+    font-family: "Rockwell";
+    text-align: justify;
+}
+
+a {
+    color: black;
+    font-family: "Rockwell";
+    text-decoration: none;
+}
+
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+}
+
+body > header {
+    text-align: center;
+
+}
+
+main {
+    display: flex;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    width: 100%;
+
+}
+
+article {
+    width: 80%;
+    margin: auto
+}
+
+ul {
+    list-style-type: none;
+}
+
+nav ul {
+    display:inline-flex;
+    overflow: none;
+    background: #FAFAFA;
+    font-family: "Rockwell";
+
+}
+
+
+nav li.active {
+    background-color: rgba(255, 0, 0, 0.8);
+
+}
+
+nav li a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-decoration: none;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+}
+
+nav li a:hover,
+nav li.active a {
+    color: white;
+    background-color: rgba(255, 0, 0, 0.8);
+}
+
+nav li a {
+     display: block;
+}
+
+nav ul li img {
+    width: 32px;
+    height: 32px;
+    margin: 4px 0 0 0;
+    padding: 0;
+    display: none;
+    color: black;
+}
+.articles {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    width: 20%;
+    text-align: justify;
+
+}
+
+.flux {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    width: 80%;
+    text-align: justify;
+
+}
+
+.description {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    width: 70%;
+    text-align: justify;
+}
+
+aside {
+    width: 30%;
+    padding: 20px;
+    min-width: 360px;
+}
+
+aside > ul > li {
+    margin: 10px;
+}
+
+aside div {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    padding-bottom: 5px;
+}
+
+
+aside h4 {
+    padding: 0.75em 0.75em;
+    font-family: "Rockwell";
+
+}
+
+
+.mockup {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    text-align: justify;
+    margin: auto;
+    margin-bottom: 100px;
+}
+
+
+.contenuJDB {
+    margin: auto;
+    text-align: justify;
+    width: 90%;
+}
+
+img {
+    padding-bottom: 50px;
+}
+
+
+footer {
+
+    background: #DEE5EA;
+    position: fixed;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+#logoFinDePage {
+    padding-top: 25px;
+}
+
+/*tableau page TDB*/
+table {
+    border-collapse: collapse;
+    width: 80%;
+    text-align: justify;
+    margin: 50 auto;
+    box-shadow: 1px 1px 12px #555;
+}
+
+
+th {
+    background: #FF0000;
+    color: white;
+    word-spacing: 7px;
+    letter-spacing: 2px;
+    font-family: "Rockwell";
+    padding: 10px;
+
+}
+
+td {
+    background: #FAFAFA;
+}
+
+td,
+th {
+    border: 1px solid black;
+    height: 40px;
+    font-family: "Rockwell";
+    text-align: center;
+}
+/*------------------------------------------------------------------------------------------
+/format tablette
+/*----------------------------------------------------------------------------------------*/
+@media screen and (max-width: 980px) {
+
+    nav ul {
+        flex-direction: column;
+        padding-left: 0;
+    }
+
+    nav ul li.menu {
+        text-align: center;
+        display: block;
+        margin: 0 auto 10px;
+    }
+
+    nav ul li img {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        margin: 4px 0 0 0;
+        display: block;
+    }
+
+    .articles {
+        width: 80%;
+    }
+
+
+}
+
+/*------------------------------------------------------------------------------------------
+/format smartphone
+/*----------------------------------------------------------------------------------------*/
+@media screen and (max-width: 580px) {
+
+    main {
+        flex-direction: column;
+    }
+
+    nav ul {
+        flex-direction: column;
+        padding-left: 0;
+    }
+
+    nav ul li.menu {
+        text-align: center;
+        display: block;
+        margin: 0 auto 10px;
+    }
+
+    nav ul li img {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        margin: 4px 0 0 0;
+        display: block;
+    }
+
+    .articles {
+        width: 90%;
+    }
+
+
+}
