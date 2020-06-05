@@ -92,7 +92,7 @@ function generateLevel() {
         } else {
             setTimeout(function () {
                 //Stop Game because we finished it
-                location.href = "./EndGame.html";
+                location.href = "../EndGame.html";
                 if (score > highScore) {
                     localStorage.highscore = score;
                     sessionStorage.bestScore = true;
@@ -115,7 +115,8 @@ function listenKeys() {
             player.pressingLeft = true;
         else if (event.keyCode === 87) // w
             player.pressingUp = true;
-
+        /* else if (event.keyCode === 32) // espace
+             player.pressingSpace = true;*/
     }
 
     document.onkeyup = function (event) {
@@ -127,7 +128,8 @@ function listenKeys() {
             player.pressingLeft = false;
         else if (event.keyCode === 87) // w
             player.pressingUp = false;
-
+        else if (event.keyCode === 80) // p for pause
+            pause = !pause;
     }
 }
 
@@ -136,7 +138,16 @@ function listenKeys() {
 
 update = function () {
 
-
+    if (pause === true) {
+        bg.stop();
+        ctx.font = '100px Rockwell';
+        ctx.fillText("Pause", 650, 300);
+        //pause le level aussi
+        return;
+    }
+    if (pause === false) {
+        moveBackground();
+    }
 
     if (frameCount != 0 && frameCount % 150 === 0) {
         score += 10;
