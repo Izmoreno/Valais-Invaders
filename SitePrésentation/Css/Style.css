@@ -72,8 +72,7 @@ h4 {
 
 p {
     font-family: "Rockwell";
-    font-size: 14px;
-    text-align: left;
+    text-align: justify;
 }
 
 a {
@@ -138,7 +137,7 @@ nav li a {
 }
 
 nav li a:hover,
-nav div ul li.active a {
+nav li.active a {
     color: white;
     background-color: rgba(255, 0, 0, 0.8);
 }
@@ -147,7 +146,7 @@ nav li a {
      display: block;
 }
 
-nav div img {
+nav ul li img {
     width: 32px;
     height: 32px;
     margin: 4px 0 0 0;
@@ -180,13 +179,14 @@ nav div img {
     flex-direction: row;
     margin: 0 auto;
     margin-bottom: 100px;
-    width: 80%;
+    width: 70%;
     text-align: justify;
 }
 
 aside {
+    width: 30%;
     padding: 20px;
-    min-width: 300px;
+    min-width: 360px;
 }
 
 aside > ul > li {
@@ -290,20 +290,19 @@ th {
         margin: 0 auto 10px;
     }
 
-    nav div img {
+    nav ul li img {
         width: 32px;
         height: 32px;
         padding: 0;
         margin: 4px 0 0 0;
         display: block;
     }
-    nav div.textemenu {
-        display: block;
-    }
 
     .articles {
         width: 80%;
     }
+
+
 }
 
 /*------------------------------------------------------------------------------------------
@@ -325,10 +324,8 @@ th {
         display: block;
         margin: 0 auto 10px;
     }
-  nav div.textemenu {
-        display: block;
-    }
-    nav div img {
+
+    nav ul li img {
         width: 32px;
         height: 32px;
         padding: 0;
@@ -339,5 +336,6 @@ th {
     .articles {
         width: 90%;
     }
+
 
 }

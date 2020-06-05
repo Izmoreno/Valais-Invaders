@@ -253,9 +253,6 @@ moveBackground = function () {
 //Choose a random sound every 10 seconds
 randomSounds = function () {
     let temp = Math.floor(Math.random()*Math.floor(4));
-
-    console.log(temp);
-
     switch (temp) {
         case 0:
             coupdepied.play();

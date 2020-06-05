@@ -127,6 +127,7 @@ button {
 #backButton {
     display: block;
     margin-top: 12px;
+    margin-left: 10px;
 }
 
 
@@ -139,24 +140,19 @@ button {
     border-color: #000000;
     position: relative;
 
-
 }
-
 
 #startGeolocationButtonZone {
     display: flex;
     justify-content: flex-end;
     margin-top: 12px;
-
+    margin-right: 10px;
 
 }
-
-
 .heroOption {
     text-align: center;
     vertical-align: top;
-
-
+    width: 250px;
 }
 
 
@@ -166,13 +162,11 @@ button {
     margin-top: 40px
 }
 
-
-
-#chooseHeroTitle, #infosTitle {
+#chooseHeroTextTitle, #infosTitle {
     display: flex;
     justify-content: center;
+    font-size: 56px;
 }
-
 
 #geolocationTest {
     width: 100%;
@@ -183,12 +177,12 @@ button {
     align-items: center;
 }
 
-
 #mapid {
     height: 400px;
     width: 600px;
     margin-bottom: 15px;
 }
+
 .loader {
     border: 16px solid #ffffff;
     border-top: 16px solid #FF0000;
@@ -276,8 +270,6 @@ button {
     height: 670px;
     border: solid 2px;
 }
-
-
 
 .endMessages {
     font-style: normal;

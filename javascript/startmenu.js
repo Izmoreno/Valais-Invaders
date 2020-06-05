@@ -94,6 +94,7 @@ $(document).ready(function () {
     gameZoneElement = $("#gameZone").detach();
     infosScreenElement = $("#infosScreen").detach();
     $("#startMenu").removeAttr("hidden");
+    //Generates an error if the browser does'nt allow to play an audio without any interaction of the user - this is not really critic
     startMusic();
 
 });
