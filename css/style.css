@@ -216,12 +216,20 @@ h3 {
 
 h4 {
 	font-style: normal;
-	font-size: 16pt;
+	font-size: 35pt;
 	margin: 0px;
+	text-align: center;
 }
 
+.h4 {
+	margin-top: 60px;
+	margin-bottom: 100px;
+}
 
-
+.rejouer{
+	display: block;
+	margin: auto;
+}
 
 #gameover, #win {
 	background-image: url(../img/backMenu.png);
@@ -231,12 +239,7 @@ h4 {
 	justify-content: space-between;
 }
 
-footer {
-	position: fixed;
-	bottom: 270px;
-	margin-left: 30%;
-	margin-right: 30%;
-}
+
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
