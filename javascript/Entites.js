@@ -6,9 +6,9 @@ var barrelList = {};
 var wineList = {};
 var papetList = {};
 var viesList = {};
-var flagList = {};
+var ok = 0;
 var collid = false;
-
+var isBestScore = false;
 
 
 
@@ -17,7 +17,7 @@ Player = function () {
 	var self;
 	switch (heroChoosedId) {
 		case "constantin":
-			self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.constantin);
+			self = Entity('player', 'id', 300, 200, 2, 2, 130, 45, Img.constantin);
 			break;
 		case "freysinger":
 			self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
@@ -28,6 +28,8 @@ Player = function () {
 		default:
 			self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
 	}
+
+	self.hp = 3;
 
 	self.updatePosition = function () {
 		if (self.pressingRight) {
@@ -51,26 +53,15 @@ Player = function () {
 	var super_update = self.update;
 	self.update = function () {
 		super_update();
+		//check lives
 		if (self.hp <= 0) {
-			ok = 1;
 			var timeSurvived = Date.now() - timeWhenGameStarted;
 			console.log("You lost! You survived for " + timeSurvived + " ms.");
-			//startNewGame();
-			document.getElementById("gameZone").style.display = "none";
-			document.getElementById("gameover").style.display = "block";
-			pause = true;
-
-			if (score < highScore) {
-				document.getElementById("1").innerHTML = "T'as trop fait la pichte ou quoi ? C'est pas ton plus beau score";
-				document.getElementById("2").innerHTML = "Score : " + score;
-				document.getElementById("3").innerHTML = "Best : " + highScore;
-			} else {
-				highScore = score;
-				document.getElementById("1").innerHTML = "Mais tcheuuu c'est beau ca ! ";
-				document.getElementById("2").innerHTML = "Un nouveau record ";
-				document.getElementById("3").innerHTML = highScore;
-				localStorage.setItem('highscore', highScore);
+			if (score > highScore) {
+				localStorage.highscore = score;
+				sessionStorage.bestScore = true;
 			}
+			generateGameOver();
 		}
 	}
 
@@ -120,8 +111,6 @@ Entity = function (type, id, x, y, spdX, spdY, width, height, img) {
 				case "papet":
 					delete papetList[self.id];
 					break;
-				case "flag":
-					delete flagList[self.id];
 				default:
 					break;
 			}
@@ -188,8 +177,6 @@ generateVie = function () {
 	Vies(id2, x2, y, spdX, spdY, width, height);
 }
 
-
-
 Apricot = function (id, xDestination, yDestination) {
 	var self = Entity("apricot", id, xDestination, yDestination, speedX, 0, 100, 100, Img.apricot);
 	apricotList[id] = self;
@@ -210,20 +197,14 @@ Papet = function (id, xDestination, yDestination) {
 	var self = Entity("papet", id, xDestination, yDestination, speedX, 0, 100, 100, Img.papet);
 	papetList[id] = self;
 }
-Flag = function (id, xDestination, yDestination) {
-	var self = Entity('flag', id, xDestination, yDestination, speedX, 0, 100, 100, Img.flag);
-	flagList[id] = self;
-}
 var barrelIdCount = 0;
 var apricotIdCount = 0;
 var cheeseIdCount = 0;
 var wineIdCount = 0;
 var papetIdCount = 0;
-var flagIdCount = 0;
 
 
 createEntity = function (idObject, xDestination, yDestination) {
-	console.log(idObject);
 	switch (idObject) {
 		case 1:
 			break;
@@ -252,12 +233,17 @@ createEntity = function (idObject, xDestination, yDestination) {
 			Barrel(barrelIdCount, xDestination, yDestination);
 			barrelIdCount++;
 			break;
-		case 7: 
-			//Créer la ligne d'arrivée avec arrivee.png
-			Flag(flagIdCount, xDestination, yDestination);
-			flagIdCount++;
-			break;
 	}
 
 
+}
+
+generateGameOver = function () {
+	//Storage compatibility should already checked
+	//Save the type of ending and the score
+	sessionStorage.isGameOver = true;
+	sessionStorage.score = score;
+
+	//Get ValaisInvaders.html
+	window.location.href = "./EndGame.html";
 }
