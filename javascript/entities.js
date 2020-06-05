@@ -15,16 +15,16 @@ Player = function () {
     var self;
     switch (heroChoosedId) {
         case "constantin":
-            self = Entity('player', 'id', 300, 200, 2, 2, 270, 90, Img.constantin);
+            self = Entity('player', 'id', 300, 200, 2, 1.6, 270, 90, Img.constantin);
             break;
         case "freysinger":
-            self = Entity('player', 'id', 300, 200, 2, 2, 225, 75, Img.freysinger);
+            self = Entity('player', 'id', 300, 200, 2, 1.6, 225, 75, Img.freysinger);
             break;
         case "rappaz":
-            self = Entity('player', 'id', 300, 200, 2, 2, 160, 80, Img.rappaz);
+            self = Entity('player', 'id', 300, 200, 2, 1.6, 160, 70, Img.rappaz);
             break;
         default:
-            self = Entity('player', 'id', 300, 200, 2, 2, 225, 75, Img.freysinger);
+            self = Entity('player', 'id', 300, 200, 2, 1.6, 225, 75, Img.freysinger);
             break;
     }
 

@@ -78,12 +78,16 @@ function generateLevel() {
 
 
     var row = 0;
-
+    let levelfr = {};
+    let levelkey = 0;
 
     //Read the column of objects to display each 2 seconds
     readJSON = function () {
         for (var col = 0; col < levelArray.length; col++) {
             var y = col * 100;
+            levelfr[levelkey] = levelArray[col][row];
+            levelkey++;
+            console.log(levelfr);
             createEntity(levelArray[col][row], 1600, y);
         }
         row++;
@@ -130,8 +134,6 @@ function listenKeys() {
             player.pressingLeft = false;
         else if (event.keyCode === 87) // w
             player.pressingUp = false;
-        else if (event.keyCode === 80) // p for pause
-            pause = !pause;
     }
 }
 
@@ -229,7 +231,7 @@ moveBackground = function () {
         deplace = function () {
 
             bg = $('#fond').animate({
-                left: '-=250'
+                left: '-=200'
             }, 1400, 'linear', function () {
                 $('#fond').css('top', 0);
                 deplace();
