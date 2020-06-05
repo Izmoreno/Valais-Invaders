@@ -72,7 +72,7 @@ function isInValaisTest(region) {
         case "Vaud":
             //Game over
             isVaudois = true;
-            message.innerHTML = "Vaudois ! Non mais tu plaisantes ou bien...Vas jouer ailleurs ! ";
+            message.innerHTML = "Vaudois ! Non mais tu plaisantes ou bien...Va jouer ailleurs ! ";
             score = -1000;
             break;
         case "Genève":

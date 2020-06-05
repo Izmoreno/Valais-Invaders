@@ -6,13 +6,16 @@ var barrelList = {};
 var wineList = {};
 var papetList = {};
 var viesList = {};
-var ok = 0;
 var collid = false;
+<<<<<<< HEAD
 var isBestScore = false;
+=======
+>>>>>>> origin/Tiagzz
 
 
 
 Player = function () {
+<<<<<<< HEAD
 	//Generate the hero choosed
 	var self;
 	switch (heroChoosedId) {
@@ -73,6 +76,69 @@ Player = function () {
 	self.pressingUp = false;
 
 	return self;
+=======
+    //Generate the hero choosed
+    var self;
+    switch (heroChoosedId) {
+        case "constantin":
+            self = Entity('player', 'id', 300, 200, 2, 2, 130, 45, Img.constantin);
+            break;
+        case "freysinger":
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
+            break;
+        case "rappaz":
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.rappaz);
+            break;
+        default:
+            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
+    }
+
+    self.hp = 3;
+
+    self.updatePosition = function () {
+        if (self.pressingRight) {
+            if (self.x < 1400)
+                self.x += self.spdX;
+        }
+        if (self.pressingLeft) {
+            if (self.x > 100)
+                self.x = self.x - self.spdX;
+        }
+        if (self.pressingDown) {
+            if (self.y < 600)
+                self.y += self.spdY;
+        }
+        if (self.pressingUp) {
+            if (self.y > 70)
+                self.y = self.y - self.spdY;
+        }
+    }
+
+    var super_update = self.update;
+    self.update = function () {
+        super_update();
+        //check lives
+        if (self.hp <= 0) {
+
+            var timeSurvived = Date.now() - timeWhenGameStarted;
+            console.log("You lost! You survived for " + timeSurvived + " ms.");
+            if(score > highScore){
+                localStorage.highscore = score;
+                sessionStorage.bestScore = true;
+            }
+            generateGameOver();
+        }
+    }
+
+
+    self.pressingDown = false;
+    self.pressingLeft = false;
+    self.pressingRight = false;
+    self.pressingSpace = false;
+    self.pressingUp = false;
+
+    return self;
+>>>>>>> origin/Tiagzz
 }
 
 

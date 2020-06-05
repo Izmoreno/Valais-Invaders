@@ -11,7 +11,7 @@ var timeWhenGameStarted = Date.now(); //return time in ms
 
 var frameCount = 0;
 var cptVie;
-var score = 0;
+var score = parseInt(sessionStorage.score);
 var highScore = 0;
 var pause = false;
 
@@ -60,6 +60,7 @@ testCollisionRectRect = function (rect1, rect2) {
 }
 
 function generateLevel() {
+<<<<<<< HEAD
 	//Read level1.json
 	var requestURL = "level1.json";
 	var request = new XMLHttpRequest();
@@ -100,6 +101,51 @@ function generateLevel() {
 		}
 
 	}
+=======
+    //Read level1.json
+    var requestURL = "level1.json";
+    var request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    var level;
+
+    request.onload = function () {
+        level = request.response;
+
+        //Get the array of the level
+        levelArray = level.terrain;
+        readJSON();
+    }
+
+
+    var row = 0;
+
+    //Read the column of objects to display each 2 seconds
+    readJSON = function () {
+        for (var col = 0; col < levelArray.length; col++) {
+            var y = col * 100 + 50;
+            createEntity(levelArray[col][row], 1600, y);
+        }
+        row++;
+        if (row <= levelArray[0].length) {
+            setTimeout(function () {
+                readJSON();
+            }, 1000);
+        } else {
+            setTimeout(function () {
+                //Stop Game because we finished it
+                location.href = "../EndGame.html";
+                if (score > highScore) {
+                    localStorage.highscore = score;
+                    sessionStorage.bestScore = true;
+                    sessionStorage.score = score;
+                }
+            }, 8000);
+        }
+
+    }
+>>>>>>> origin/Tiagzz
 
 }
 
@@ -136,6 +182,7 @@ function listenKeys() {
 
 update = function () {
 
+<<<<<<< HEAD
 	if (pause === true) {
 		bg.stop();
 		ctx.font = '100px Rockwell';
@@ -218,6 +265,90 @@ update = function () {
 	    }*/
 
 	/*   for (var key in malusList) {
+=======
+    if (pause === true) {
+        bg.stop();
+        ctx.font = '100px Rockwell';
+        ctx.fillText("Pause", 650, 300);
+        //pause le level aussi
+        return;
+    }
+    if (pause === false) {
+        moveBackground();
+    }
+
+    if (frameCount != 0 && frameCount % 150 === 0) {
+        score += 10;
+    }
+
+
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.font = '50px Rockwell';
+
+    frameCount++;
+
+    for (var key in apricotList) {
+        apricotList[key].update();
+    }
+    for (var key in cheeseList) {
+        cheeseList[key].update();
+
+    }
+    for (var key in wineList) {
+        wineList[key].update();
+
+    }
+    for (var key in papetList) {
+        papetList[key].update();
+
+    }
+    for (var key in barrelList) {
+        barrelList[key].update();
+        /*player.testCollision(barrelList[key]);
+        if (collide) {
+            player.hp -= 1;
+            delete barrelList[key];
+            delete viesList[player.hp + 1];
+        }*/
+    }
+    for (var key in viesList) {
+        viesList[key].update();
+
+    }
+    /*
+    	for (var key in strawList) {
+    		strawList[key].update();
+
+    		player.testCollision(strawList[key]);
+    		if (collide) {
+    			score += 10;
+    			player.hp -= 1;
+    			delete viesList[player.hp + 1];
+    			delete strawList[key];
+
+    		}
+
+
+    	}
+    */
+
+    /*
+        for (var key in bonusList) {
+            bonusList[key].update();
+            var isColliding = player.testCollision(bonusList[key]);
+            if (isColliding) {
+                if (bonusList[key].category == 'abricot')
+                    score += 10;
+                if (bonusList[key].category == 'wine')
+                    score += 25;
+                if (bonusList[key].category == 'cheese')
+                    score += 50;
+                delete bonusList[key];
+            }
+        }*/
+
+    /*   for (var key in malusList) {
+>>>>>>> origin/Tiagzz
         malusList[key].update();
         var isColliding = player.testCollision(malusList[key]);
         if (isColliding) {
@@ -232,7 +363,11 @@ update = function () {
 */
 	player.update();
 
+<<<<<<< HEAD
 	ctx.fillText('Score : ' + score, 1200, 655);
+=======
+    ctx.fillText('Score : ' + score, 1200, 655);
+>>>>>>> origin/Tiagzz
 	ctx.fillText('Best score : ' + highScore, 640, 655);
 
 
@@ -253,6 +388,7 @@ moveBackground = function () {
 	});
 }
 
+<<<<<<< HEAD
 drawMap = function () {
 
 	ctx.drawImage(Img.bg, 0, 0);
@@ -280,6 +416,32 @@ startGame = function () {
 	} else {
 		highScore = parseInt(scoreStr);
 	}
+=======
+//Start game
+startGame = function () {
+    if (sessionStorage.isVaudois === "true") {
+        console.log(sessionStorage.isVaudois);
+        return generateGameOver();
+    }
+    player = Player();
+    listenKeys();
+    moveBackground();
+    generateVie();
+    setInterval(update, 5);
+
+    //get the highscore from localstorage
+    var scoreStr = localStorage.highscore;
+    if (scoreStr == null) {
+        highScore = 0;
+    } else {
+        highScore = parseInt(scoreStr);
+    }
+    setTimeout(function () {
+        generateLevel();
+    }, 2000);
+
+
+>>>>>>> origin/Tiagzz
 
 }
 
