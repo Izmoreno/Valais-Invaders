@@ -3,6 +3,8 @@ var heroChoosedId;
 var time;
 var isVaudois = false;
 
+var musictheme = new Audio("audio/musictheme.wav");
+
 //Managing different screens before game starts
 $(document).ready(function () {
 
@@ -17,7 +19,7 @@ $(document).ready(function () {
         } else {
             $("#chooseHeroButton").prop('disabled', true);
         }
-
+        startMusic();
     });
     $("#chooseHeroButton").click(function () {
         //Save the player name
@@ -33,6 +35,7 @@ $(document).ready(function () {
         homeElement = $("#home").detach();
         $("#startMenu").prepend(infosScreenElement);
         $("#infosScreen").removeAttr("hidden");
+        startMusic();
     });
     $("#infosBackButton").click(function () {
         //Return to start screen
@@ -62,7 +65,6 @@ $(document).ready(function () {
         //Remove start menu
         $("#startMenu").remove();
 
-
         if (heroChoosedId === "") {
             location.reload();
             return;
@@ -70,7 +72,7 @@ $(document).ready(function () {
 
         //Start game
 
-        //Save player name, hero choosed in Session Storage
+        //Save player name, hero choosed, score, isVaudois in Session Storage
         if (saveVariables()) {
             //Get ValaisInvaders.html
             window.location.href = "./ValaisInvaders.html";
@@ -92,7 +94,7 @@ $(document).ready(function () {
     gameZoneElement = $("#gameZone").detach();
     infosScreenElement = $("#infosScreen").detach();
     $("#startMenu").removeAttr("hidden");
-
+    startMusic();
 
 });
 
@@ -146,3 +148,9 @@ function drop(ev) {
 
     $("#startGeolocationButton").removeAttr('disabled');
 }
+
+function startMusic(){
+    musictheme.play();
+    musictheme.loop = true;
+}
+

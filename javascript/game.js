@@ -12,7 +12,6 @@ var timeWhenGameStarted = Date.now(); //return time in ms
 var frameCount = 0;
 var cptVie;
 var score;
-console.log(isNaN(sessionStorage.score));
 if (isNaN(sessionStorage.score)) {
     score = 0;
 } else {
@@ -30,8 +29,33 @@ var speedY = 0;
 var levelArray;
 
 var bg;
-var updateIsDone = true;
 
+// load audio files
+let miam = new Audio();
+let wine = new Audio();
+let vomi = new Audio();
+let loser = new Audio();
+let impact = new Audio();
+let musictheme = new Audio();
+let marignan = new Audio();
+let coupdepied = new Audio();
+let renvoyer = new Audio();
+let richi = new Audio();
+let valaissecurite = new Audio();
+
+miam.src = "audio/miam.wav";
+wine.src = "audio/wine.wav";
+vomi.src = "audio/vomi.wav";
+impact.src = "audio/impact.wav";
+loser.src = "audio/loser.wav";
+musictheme.src = "audio/musictheme.wav";
+marignan.src = "audio/marignan.wav";
+coupdepied.src = "audio/coupdepied.wav";
+renvoyer.src = "audio/renvoyer.wav";
+richi.src = "audio/richi.wav";
+valaissecurite.src = "audio/valaissecurite.wav";
+
+// load images
 var Img = {};
 Img.constantin = new Image();
 Img.constantin.src = "img/bus-FCSION.png";
@@ -78,16 +102,11 @@ function generateLevel() {
 
 
     var row = 0;
-    let levelfr = {};
-    let levelkey = 0;
 
     //Read the column of objects to display each 2 seconds
     readJSON = function () {
         for (var col = 0; col < levelArray.length; col++) {
             var y = col * 100;
-            levelfr[levelkey] = levelArray[col][row];
-            levelkey++;
-            console.log(levelfr);
             createEntity(levelArray[col][row], 1600, y);
         }
         row++;
@@ -102,8 +121,8 @@ function generateLevel() {
                 if (score > highScore) {
                     localStorage.highscore = score;
                     sessionStorage.bestScore = true;
-                    sessionStorage.score = score;
                 }
+                sessionStorage.score = score;
             }, 8000);
         }
 
@@ -121,8 +140,6 @@ function listenKeys() {
             player.pressingLeft = true;
         else if (event.keyCode === 87) // w
             player.pressingUp = true;
-        /* else if (event.keyCode === 32) // espace
-             player.pressingSpace = true;*/
     }
 
     document.onkeyup = function (event) {
@@ -142,37 +159,25 @@ function listenKeys() {
 
 update = function () {
     if(pause){
+        bg.stop();
         return;
     }
 
     frameCount++;
 
-    if (pause === true) {
-        bg.stop();
-        ctx.font = '100px Rockwell';
-        ctx.fillText("Pause", 650, 300);
-        //pause le level aussi
-        return;
-    }
-    if (pause === false) {
-        moveBackground();
-    }
-
     if (frameCount != 0 && frameCount % 150 === 0) {
         score += 10;
     }
 
-
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     ctx.font = '50px Rockwell';
-
-
 
     for (var key in apricotList) {
         apricotList[key].update();
         collide = player.testCollision(apricotList[key]);
         if (collide) {
-            score += 20
+            score += 20;
+            miam.play();
             delete apricotList[key];
         }
     }
@@ -181,7 +186,8 @@ update = function () {
         cheeseList[key].update();
         collide = player.testCollision(cheeseList[key]);
         if (collide) {
-            score += 20
+            score += 20;
+            miam.play();
             delete cheeseList[key];
         }
 
@@ -191,7 +197,8 @@ update = function () {
         wineList[key].update();
         collide = player.testCollision(wineList[key]);
         if (collide) {
-            score += 100
+            score += 100;
+            wine.play();
             delete wineList[key];
         }
     }
@@ -200,7 +207,8 @@ update = function () {
         papetList[key].update();
         collide = player.testCollision(papetList[key]);
         if (collide) {
-            score -= 50
+            score -= 50;
+            vomi.play();
             delete papetList[key];
         }
 
@@ -211,6 +219,7 @@ update = function () {
         collide = player.testCollision(barrelList[key]);
         if (collide) {
             player.hp -= 1;
+            impact.play();
             delete barrelList[key];
             delete viesList[player.hp + 1];
         }
@@ -241,6 +250,29 @@ moveBackground = function () {
     });
 }
 
+//Choose a random sound every 10 seconds
+randomSounds = function () {
+    let temp = Math.floor(Math.random()*Math.floor(4));
+
+    console.log(temp);
+
+    switch (temp) {
+        case 0:
+            coupdepied.play();
+            break;
+        case 1:
+            renvoyer.play();
+            break;
+        case 2:
+            richi.play();
+            break;
+        case 3:
+            valaissecurite.play();
+            break;
+    }
+
+}
+
 //Start game
 startGame = function () {
     if (sessionStorage.isVaudois === "true") {
@@ -248,7 +280,8 @@ startGame = function () {
         return generateGameOver();
     }
     player = Player();
-
+    musictheme.play();
+    setInterval(randomSounds, 10000);
     listenKeys();
     moveBackground();
     generateVie();

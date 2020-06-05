@@ -21,8 +21,6 @@ function showPosition(position) {
 
     var lat = position.coords.latitude;
     var lon = position.coords.longitude;
-    //console.log(lat);
-    //console.log(lon);
 
     var mymap = L.map('mapid').setView([lat, lon], 13);
 
@@ -52,9 +50,6 @@ function showPosition(position) {
         //result is in json
         //var address = result.address.Match_addr;
         var region = result.address.Region;
-        //console.log(result);
-        //console.log(region);
-        //console.log(address);
 
         isInValaisTest(region);
         $("#startGameButton").removeAttr('disabled');

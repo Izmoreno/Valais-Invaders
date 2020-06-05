@@ -42,35 +42,51 @@
 
 </html>
 <script>
+    //Audios
+    let loser = new Audio();
+    let marignan = new Audio();
+    let musictheme = new Audio();
+
+    loser.src = "audio/loser.wav";
+    marignan.src = "audio/marignan.wav";
+    musictheme.src = "audio/musictheme.wav";
+
     $(document).ready(function() {
         if (sessionStorage.isVaudois === "true") {
             $("#win").detach();
             $("#gameover").detach();
             $("#vaudois").removeAttr("hidden");
-        }
-        if (sessionStorage.isGameOver === "true") {
-            //Case game over
-            $("#win").detach();
-            $("#gameover").removeAttr("hidden");
-            //new highscore
-            if (sessionStorage.bestScore === "true") {
-                $("#1").append("Tcheuuu le record ici !");
-                $("#2").append("Ca c'est beau  : " + sessionStorage.score);
-
-            } else {
-                $("#1").append("Euille t'as trop fait la pichte ou quoi ?");
-                $("#2").append("C'est quoi ce score ? " + sessionStorage.score);
-                $("#3").append("Tu nous avais habitué à mieux ... Meilleur score : " + localStorage.highscore);
-            }
-
-            sessionStorage.clear();
+            loser.play();
+            loser.loop = true;
         } else {
-            //Case win
-            $("#gameover").detach();
-            $("#win").removeAttr("hidden");
-            $("#4").append("Grâce à toi notre beau Valais se porte mieux !");
-            $("#5").append("Et avec un score pareil :   " + sessionStorage.score);
-            $("#6").append("Les vaudois n'ont qu'à bien se tenir ! ");
+            if (sessionStorage.isGameOver === "true") {
+                //Case game over
+                $("#win").detach();
+                $("#gameover").removeAttr("hidden");
+                musictheme.play();
+                musictheme.loop = true;
+                //new highscore
+                if (sessionStorage.bestScore === "true") {
+                    $("#1").append("Tcheuuu le record ici !");
+                    $("#2").append("Ca c'est beau  : " + sessionStorage.score);
+
+                } else {
+                    $("#1").append("Euille t'as trop fait la pichte ou quoi ?");
+                    $("#2").append("C'est quoi ce score ? " + sessionStorage.score);
+                    $("#3").append("Tu nous avais habitué à mieux ... Meilleur score : " + localStorage.highscore);
+                }
+
+                sessionStorage.clear();
+            } else {
+                //Case win
+                $("#gameover").detach();
+                $("#win").removeAttr("hidden");
+                $("#4").append("Grâce à toi notre beau Valais se porte mieux !");
+                $("#5").append("Et avec un score pareil :   " + sessionStorage.score);
+                $("#6").append("Les vaudois n'ont qu'à bien se tenir ! ");
+                marignan.play();
+                marignan.loop = true;
+            }
         }
     });
 
