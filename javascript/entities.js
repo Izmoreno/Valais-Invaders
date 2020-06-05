@@ -15,35 +15,40 @@ Player = function () {
     var self;
     switch (heroChoosedId) {
         case "constantin":
-            self = Entity('player', 'id', 300, 200, 2, 2, 130, 45, Img.constantin);
+            self = Entity('player', 'id', 300, 200, 2, 2, 270, 90, Img.constantin);
+            delay=100;
             break;
         case "freysinger":
-            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
+            self = Entity('player', 'id', 300, 200, 2, 2, 225, 75, Img.freysinger);
+            delay=70;
             break;
         case "rappaz":
-            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.rappaz);
+            self = Entity('player', 'id', 300, 200, 2, 2, 160, 80, Img.rappaz);
+            delay=36;
             break;
         default:
-            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
+            self = Entity('player', 'id', 300, 200, 2, 2, 225, 75, Img.freysinger);
+            delay=70;
     }
+
 
     self.hp = 3;
 
     self.updatePosition = function () {
         if (self.pressingRight) {
-            if (self.x < 1400)
+            if (self.x < 1500)
                 self.x += self.spdX;
         }
         if (self.pressingLeft) {
-            if (self.x > 100)
+            if (self.x > 0)
                 self.x = self.x - self.spdX;
         }
         if (self.pressingDown) {
-            if (self.y < 600)
+            if (self.y < 600 )
                 self.y += self.spdY;
         }
         if (self.pressingUp) {
-            if (self.y > 70)
+            if (self.y > 0)
                 self.y = self.y - self.spdY;
         }
     }
@@ -123,22 +128,24 @@ Entity = function (type, id, x, y, spdX, spdY, width, height, img) {
     self.draw = function () {
         ctx.save();
 
-        var x = self.x - self.width / 2;
-        var y = self.y - self.height / 2;
+        var x = self.x ;
+        var y = self.y ;
         ctx.drawImage(self.img, x, y);
         ctx.restore();
     }
 
 
-    self.testCollision = function (entity2) { //return if colliding (true/false)
-        if (!(entity2.x > (self.x + self.width) ||
-                entity2.x < (self.x - entity2.width) ||
-                entity2.y > (self.y + self.height) ||
-                entity2.y < (self.y - entity2.height))) {
+    self.testCollision = function (entity) { //return if colliding (true/false)
+        if (self.x-delay<(entity.x+entity.width)&&
+            (self.x-delay+self.width)>entity.x&&
+            self.y < (entity.y+entity.height)&&
+            (self.y+self.height)> entity.y){
             collide = true;
+            return collide;
         } else
             collide = false;
-    }
+       return collide;
+   }
 
 
     self.updatePosition = function () {
@@ -158,11 +165,10 @@ Vies = function (id, x, y, spdX, spdY, width, height) {
 }
 
 generateVie = function () {
-    //Math.random() returns a number between 0 and 1
     var x0 = 30;
     var x1 = 90;
     var x2 = 150;
-    var y = 645;
+    var y = 615;
     var height = 44;
     var width = 50;
     var id0 = 1;

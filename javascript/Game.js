@@ -81,7 +81,7 @@ function generateLevel() {
     //Read the column of objects to display each 2 seconds
     readJSON = function () {
         for (var col = 0; col < levelArray.length; col++) {
-            var y = col * 100 + 50;
+            var y = col * 100;
             createEntity(levelArray[col][row], 1600, y);
         }
         row++;
@@ -161,28 +161,51 @@ update = function () {
 
     for (var key in apricotList) {
         apricotList[key].update();
+        collide=player.testCollision(apricotList[key]);
+        if(collide){
+            score+=20
+            delete apricotList[key];
+        }
     }
     for (var key in cheeseList) {
+        //+20
         cheeseList[key].update();
+        collide=player.testCollision(cheeseList[key]);
+        if(collide){
+            score+=20
+            delete cheeseList[key];
+        }
 
     }
     for (var key in wineList) {
+        //+100
         wineList[key].update();
-
+        collide=player.testCollision(wineList[key]);
+        if(collide){
+            score+=100
+            delete wineList[key];
+        }
     }
     for (var key in papetList) {
+        //-50
         papetList[key].update();
+        collide=player.testCollision(papetList[key]);
+        if(collide){
+            score-=50
+            delete papetList[key];
+        }
+
 
     }
     for (var key in barrelList) {
         barrelList[key].update();
-        /*player.testCollision(barrelList[key]);
-        if (collide) {
-            player.hp -= 1;
+        collide=player.testCollision(barrelList[key]);
+        if(collide){
+            player.hp-=1;
             delete barrelList[key];
             delete viesList[player.hp + 1];
-        }*/
-    }
+        }
+   }
     for (var key in viesList) {
         viesList[key].update();
 

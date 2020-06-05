@@ -223,7 +223,6 @@ button {
 #canvas {
 	z-index: 80;
 	position: absolute;
-
 }
 
 #fond {
@@ -238,7 +237,13 @@ button {
 	width: 1500px;
 	height: 670px;
 	border: solid 2px;
-	justify-content: space-between;
+}
+
+#vaudois {
+	background-image: url(../img/backMenu.png);
+	width: 1500px;
+	height: 670px;
+	border: solid 2px;
 }
 
 .endMessages {
