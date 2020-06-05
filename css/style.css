@@ -233,7 +233,7 @@ button {
     margin-top: 1px;
 }
 
-#gameover, #win {
+#gameover, #win, #vaudois {
 	background-image: url(../img/backMenu.png);
 	width: 1500px;
 	height: 670px;

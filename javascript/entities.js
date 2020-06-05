@@ -15,35 +15,36 @@ Player = function () {
     var self;
     switch (heroChoosedId) {
         case "constantin":
-            self = Entity('player', 'id', 300, 200, 2, 2, 130, 45, Img.constantin);
+            self = Entity('player', 'id', 300, 200, 2, 2, 270, 90, Img.constantin);
             break;
         case "freysinger":
-            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
+            self = Entity('player', 'id', 300, 200, 2, 2, 225, 75, Img.freysinger);
             break;
         case "rappaz":
-            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.rappaz);
+            self = Entity('player', 'id', 300, 200, 2, 2, 160, 80, Img.rappaz);
             break;
         default:
-            self = Entity('player', 'id', 300, 200, 2, 2, 200, 134, Img.freysinger);
+            self = Entity('player', 'id', 300, 200, 2, 2, 225, 75, Img.freysinger);
+            break;
     }
 
     self.hp = 3;
 
     self.updatePosition = function () {
         if (self.pressingRight) {
-            if (self.x < 1400)
+            if (self.x + self.width < 1500)
                 self.x += self.spdX;
         }
         if (self.pressingLeft) {
-            if (self.x > 100)
+            if (self.x >= 0)
                 self.x = self.x - self.spdX;
         }
         if (self.pressingDown) {
-            if (self.y < 600)
+            if (self.y + self.height <= 600)
                 self.y += self.spdY;
         }
         if (self.pressingUp) {
-            if (self.y > 70)
+            if (self.y > 0)
                 self.y = self.y - self.spdY;
         }
     }
@@ -62,6 +63,7 @@ Player = function () {
             }
             generateGameOver();
         }
+
     }
 
 
@@ -122,23 +124,22 @@ Entity = function (type, id, x, y, spdX, spdY, width, height, img) {
 
     self.draw = function () {
         ctx.save();
-
-        var x = self.x - self.width / 2;
-        var y = self.y - self.height / 2;
-        ctx.drawImage(self.img, x, y);
+        ctx.drawImage(self.img, self.x, self.y);
         ctx.restore();
     }
 
 
-    self.testCollision = function (entity2) { //return if colliding (true/false)
-        if (!(entity2.x > (self.x + self.width) ||
-                entity2.x < (self.x - entity2.width) ||
-                entity2.y > (self.y + self.height) ||
-                entity2.y < (self.y - entity2.height))) {
+    self.testCollision = function (entity) { //return if colliding (true/false)
+        if (self.x<(entity.x+entity.width)&&
+            (self.x+self.width)>entity.x&&
+            self.y < (entity.y+entity.height)&&
+            (self.y+self.height)> entity.y){
             collide = true;
+            return collide;
         } else
             collide = false;
-    }
+       return collide;
+   }
 
 
     self.updatePosition = function () {
@@ -154,7 +155,6 @@ Entity = function (type, id, x, y, spdX, spdY, width, height, img) {
 Vies = function (id, x, y, spdX, spdY, width, height) {
     var self = Entity('vie', id, x, y, spdX, spdY, width, height, Img.coeur);
     viesList[id] = self;
-
 }
 
 generateVie = function () {
@@ -162,7 +162,7 @@ generateVie = function () {
     var x0 = 30;
     var x1 = 90;
     var x2 = 150;
-    var y = 645;
+    var y = 620;
     var height = 44;
     var width = 50;
     var id0 = 1;
@@ -170,7 +170,6 @@ generateVie = function () {
     var id2 = 3;
     var spdX = 0;
     var spdY = 0;
-
     Vies(id0, x0, y, spdX, spdY, width, height);
     Vies(id1, x1, y, spdX, spdY, width, height);
     Vies(id2, x2, y, spdX, spdY, width, height);
@@ -238,11 +237,16 @@ createEntity = function (idObject, xDestination, yDestination) {
 }
 
 generateGameOver = function () {
+    pause=true;
+
     //Storage compatibility should already checked
     //Save the type of ending and the score
     sessionStorage.isGameOver = true;
     sessionStorage.score = score;
 
     //Get ValaisInvaders.html
-    window.location.href = "./EndGame.html";
+    setTimeout(function(){
+        window.location.href = "./EndGame.html";
+    },500);
+
 }
