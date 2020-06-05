@@ -11,7 +11,7 @@ var timeWhenGameStarted = Date.now(); //return time in ms
 
 var frameCount = 0;
 var cptVie;
-var score = 0;
+var score = parseInt(sessionStorage.score);
 var highScore = 0;
 var pause = false;
 
@@ -90,13 +90,15 @@ function generateLevel() {
                 readJSON();
             }, 1000);
         } else {
-
-            //Stop Game because we finished it
-            location.href = "../EndGame.html";
-            if (score > highScore) {
-                localStorage.highscore = highScore;
-            }
-
+            setTimeout(function () {
+                //Stop Game because we finished it
+                location.href = "../EndGame.html";
+                if (score > highScore) {
+                    localStorage.highscore = score;
+                    sessionStorage.bestScore = true;
+                    sessionStorage.score = score;
+                }
+            }, 8000);
         }
 
     }
@@ -174,12 +176,12 @@ update = function () {
     }
     for (var key in barrelList) {
         barrelList[key].update();
-        player.testCollision(barrelList[key]);
-        if(collide){
-            player.hp-=1;
+        /*player.testCollision(barrelList[key]);
+        if (collide) {
+            player.hp -= 1;
             delete barrelList[key];
             delete viesList[player.hp + 1];
-        }
+        }*/
     }
     for (var key in viesList) {
         viesList[key].update();
@@ -232,8 +234,8 @@ update = function () {
 */
     player.update();
 
-    ctx.fillText('Score : ' + score, 1230, 655);
-    ctx.fillText('Best score : ' + highScore, 680, 655);
+    ctx.fillText('Score : ' + score, 1200, 655);
+	ctx.fillText('Best score : ' + highScore, 640, 655);
 
 
 }
@@ -253,39 +255,31 @@ moveBackground = function () {
     });
 }
 
-drawMap = function () {
-
-    ctx.drawImage(Img.bg, 0, 0);
-
-}
-
 //Start game
 startGame = function () {
-    if(sessionStorage.isVaudois === "true"){
+    if (sessionStorage.isVaudois === "true") {
         console.log(sessionStorage.isVaudois);
         return generateGameOver();
     }
     player = Player();
-    drawMap();
     listenKeys();
     moveBackground();
     generateVie();
-    generateLevel();
     setInterval(update, 5);
 
     //get the highscore from localstorage
     var scoreStr = localStorage.highscore;
-    console.log(scoreStr)
     if (scoreStr == null) {
         highScore = 0;
     } else {
         highScore = parseInt(scoreStr);
     }
+    setTimeout(function () {
+        generateLevel();
+    }, 2000);
+
+
 
 }
 
 startGame();
-
-
-
-

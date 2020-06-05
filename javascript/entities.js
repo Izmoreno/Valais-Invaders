@@ -6,9 +6,7 @@ var barrelList = {};
 var wineList = {};
 var papetList = {};
 var viesList = {};
-var ok = 0;
 var collid = false;
-var alive = true;
 
 
 
@@ -54,13 +52,13 @@ Player = function () {
     self.update = function () {
         super_update();
         //check lives
-        if (self.hp <= 0 && ok === 0) {
+        if (self.hp <= 0) {
 
-            ok = 1;
             var timeSurvived = Date.now() - timeWhenGameStarted;
             console.log("You lost! You survived for " + timeSurvived + " ms.");
             if(score > highScore){
                 localStorage.highscore = score;
+                sessionStorage.bestScore = true;
             }
             generateGameOver();
         }
