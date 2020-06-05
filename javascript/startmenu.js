@@ -99,6 +99,7 @@ $(document).ready(function () {
 function saveVariables() {
     if (typeof (Storage) !== "undefined") { //Check if browser support web Storage
         console.log(isVaudois);
+        sessionStorage.score = score;
         sessionStorage.isVaudois = isVaudois;
         sessionStorage.heroChoosedId = heroChoosedId;
         sessionStorage.playerName = playerName;
