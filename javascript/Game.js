@@ -1,13 +1,6 @@
-//Create canvas
-//var canvas = document.createElement("canvas");
+//Canvas
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-/*ctx.font = '30px Arial';
-canvas.width = 1500;
-canvas.height = 670;
-canvas.style = "border:1px solid #000000;";
-var div = document.getElementById("gameZone");
-div.appendChild(canvas);*/
 
 //for player
 var HEIGHT = 670;
@@ -28,7 +21,7 @@ var speedY = 0;
 var levelArray;
 
 var bg;
-
+var counter = 10;
 
 var Img = {};
 Img.constantin = new Image();
@@ -37,8 +30,6 @@ Img.freysinger = new Image();
 Img.freysinger.src = "img/subaru.png";
 Img.rappaz = new Image();
 Img.rappaz.src = "img/bus-HIPPIE.png";
-/*Img.enemy = new Image();
-Img.enemy.src = "img/enemy.png";*/
 Img.barrel = new Image();
 Img.barrel.src = "img/barrel.png";
 Img.cheese = new Image();
@@ -53,10 +44,13 @@ Img.bg = new Image();
 Img.bg.src = "img/back.png";
 Img.coeur = new Image();
 Img.coeur.src = "img/coeur.png";
-Img.flag = new Image();
-Img.flag.src = "img/flag.png";
-/*Img.bullet = new Image();
-Img.bullet.src = "img/bullet.png";*/
+
+var heroChoosedId = sessionStorage.heroChoosedId;
+var playerName = sessionStorage.playerName;
+
+
+
+
 
 testCollisionRectRect = function (rect1, rect2) {
 	return rect1.x <= rect2.x + rect2.width &&
@@ -77,7 +71,6 @@ function generateLevel() {
 	request.onload = function () {
 		level = request.response;
 
-		console.log(level);
 		//Get the array of the level
 		levelArray = level.terrain;
 		readJSON();
@@ -99,8 +92,11 @@ function generateLevel() {
 			}, 1000);
 		} else {
 			//Stop Game because we finished it
-			console.log("fini");
-
+			if (score > highScore) {
+				localStorage.highscore = score;
+				sessionStorage.bestScore = true;
+				sessionStorage.score = score;
+			}
 		}
 
 	}
@@ -139,11 +135,10 @@ function listenKeys() {
 
 
 update = function () {
-	frameCount++;
 
 	if (pause === true) {
 		bg.stop();
-		ctx.font = '100px Minehead DEMO';
+		ctx.font = '100px Rockwell';
 		ctx.fillText("Pause", 650, 300);
 		//pause le level aussi
 		return;
@@ -152,40 +147,23 @@ update = function () {
 		moveBackground();
 	}
 
-
-
-	if ((frameCount != 0) && (frameCount % 400 === 0)) {
+	if (frameCount != 0 && frameCount % 150 === 0) {
 		score += 10;
 	}
 
 
 	ctx.clearRect(0, 0, WIDTH, HEIGHT);
-	ctx.font = '50px Berlin Sans FB';
+	ctx.font = '50px Rockwell';
 
-
-
-	for (var key in viesList) {
-		viesList[key].update();
-
-	}
+	frameCount++;
 
 	for (var key in apricotList) {
 		apricotList[key].update();
-		player.testCollision(apricotList[key]);
-		if (collide) {
-			score += 20;
-			player.hp -= 1;
-			console.log("vie player " + player.hp);
-			delete viesList[player.hp + 1];
-			console.log(viesList);
-			delete apricotList[key];
-		}
-
 	}
 	for (var key in cheeseList) {
 		cheeseList[key].update();
-	}
 
+	}
 	for (var key in wineList) {
 		wineList[key].update();
 
@@ -196,33 +174,17 @@ update = function () {
 	}
 	for (var key in barrelList) {
 		barrelList[key].update();
-
-	}
-	for (var key in flagList) {
-		flagList[key].update();
-		player.testCollision(flagList[key]);
+		player.testCollision(barrelList[key]);
 		if (collide) {
-			document.getElementById("gameZone").style.display = "none";
-			document.getElementById("win").style.display = "block";
-			pause = true;
-			
-			if (score < highScore) {
-				document.getElementById("4").innerHTML = "Score : " + score;
-				document.getElementById("5").innerHTML = "Best : " + highScore;
-			} else {
-				highScore = score;
-				document.getElementById("4").innerHTML = "Mais tcheuuu c'est beau ca ! ";
-				document.getElementById("5").innerHTML = "Un nouveau record ";
-				document.getElementById("6").innerHTML = highScore;
-				localStorage.setItem('highscore', highScore);
-			}
+			//player.hp-=1;
+			delete barrelList[key];
+			//delete viesList[player.hp + 1];
 		}
 	}
+	for (var key in viesList) {
+		viesList[key].update();
 
-
-
-
-
+	}
 	/*
 		for (var key in strawList) {
 			strawList[key].update();
@@ -270,8 +232,8 @@ update = function () {
 */
 	player.update();
 
-	ctx.fillText('Score : ' + score, 1230, 655);
-	ctx.fillText('Best score : ' + highScore, 680, 655);
+	ctx.fillText('Score : ' + score, 1200, 655);
+	ctx.fillText('Best score : ' + highScore, 640, 655);
 
 
 }
@@ -291,26 +253,28 @@ moveBackground = function () {
 	});
 }
 
+drawMap = function () {
 
-startNewGame = function () {
+	ctx.drawImage(Img.bg, 0, 0);
+
+}
+
+//Start game
+startGame = function () {
+	if (sessionStorage.isVaudois === "true") {
+		console.log(sessionStorage.isVaudois);
+		return generateGameOver();
+	}
+	player = Player();
+	drawMap();
 	listenKeys();
-	player.hp = 3;
-	timeWhenGameStarted = Date.now();
-	frameCount = 0;
-	/*apricotList = {};
-	cheeseList = {};
-	barrelList = {};
-	wineList = {};
-	papetList = {};*/
 	moveBackground();
-	viesList = {};
 	generateVie();
 	generateLevel();
 	setInterval(update, 5);
-	//score = 0;
 
 	//get the highscore from localstorage
-	var scoreStr = localStorage.getItem('highscore');
+	var scoreStr = localStorage.highscore;
 	if (scoreStr == null) {
 		highScore = 0;
 	} else {
@@ -318,3 +282,5 @@ startNewGame = function () {
 	}
 
 }
+
+startGame();
