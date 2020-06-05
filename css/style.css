@@ -233,49 +233,6 @@ button {
     margin-top: 1px;
 }
 
-<<<<<<< HEAD
-h1 {
-	color: #FF0000;
-	font-size: 70pt;
-	text-align: center;
-	margin-bottom: 0px;
-	margin-top: 0px;
-}
-
-
-h2 {
-	color: #FF0000;
-	font-size: 50pt;
-	text-align: center;
-	margin: 0px;
-}
-
-
-h3 {
-	font-style: normal;
-	font-size: 24pt;
-	margin: 0px;
-}
-
-h4 {
-	font-style: normal;
-	font-size: 35pt;
-	margin: 0px;
-	text-align: center;
-}
-
-.h4 {
-	margin-top: 60px;
-	margin-bottom: 100px;
-}
-
-.rejouer{
-	display: block;
-	margin: auto;
-}
-
-=======
->>>>>>> origin/Tiagzz
 #gameover, #win {
 	background-image: url(../img/backMenu.png);
 	width: 1500px;
@@ -284,9 +241,6 @@ h4 {
 	justify-content: space-between;
 }
 
-<<<<<<< HEAD
-
-=======
 .endMessages {
 	font-style: normal;
 	font-size: 35pt;
@@ -303,7 +257,6 @@ h4 {
 	display: block;
 	margin: auto;
 }
->>>>>>> origin/Tiagzz
 
 @keyframes spin {
   0% { transform: rotate(0deg); }

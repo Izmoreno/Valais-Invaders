@@ -9,19 +9,19 @@
 </head>
 
 <body>
+	<div id="vaudois" hidden>
+		<h1>Valais Invaders</h1>
+		<h2>Ca va pas le faire là...</h2>
+		<h4 id="4" class="endMessages">Va voir ailleurs, cul de Vaudois !</h4>
+		<button class="rejouer" type="rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
+	</div>
 	<div id="win" hidden>
 		<h1>Valais Invaders</h1>
 		<h2>Bien joué mon gars ! L'ennemi est vaincu !</h2>
 		<div class="h4">
-<<<<<<< HEAD
-			<h4 id="4"></h4>
-			<h4 id="5"></h4>
-			<h4 id="6"></h4>
-=======
 			<h4 id="4" class="endMessages"></h4>
 			<h4 id="5" class="endMessages"></h4>
 			<h4 id="6" class="endMessages"></h4>
->>>>>>> origin/Tiagzz
 		</div>
 		<button class="rejouer" type="rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
 	</div>
@@ -29,15 +29,9 @@
 		<h1>Valais Invaders</h1>
 		<h2>C'est perdu ...</h2>
 		<div class="h4">
-<<<<<<< HEAD
-			<h4 id="1"></h4>
-			<h4 id="2"></h4>
-			<h4 id="3"></h4>
-=======
 			<h4 id="1" class="endMessages"></h4>
 			<h4 id="2" class="endMessages"></h4>
 			<h4 id="3" class="endMessages"></h4>
->>>>>>> origin/Tiagzz
 		</div>
 		<button class="rejouer" type="rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
 	</div>
@@ -47,9 +41,15 @@
 </html>
 <script>
 	$(document).ready(function() {
+		if (sessionStorage.isVaudois === "true") {
+			$("#win").detach();
+			$("#gameover").detach();
+			$("#vaudois").removeAttr("hidden");
+		}
 		if (sessionStorage.isGameOver === "true") {
 			//Case game over
 			$("#win").detach();
+			$("#vaudois").detach();
 			$("#gameover").removeAttr("hidden");
 			//new highscore
 			if (sessionStorage.bestScore === "true") {
@@ -66,6 +66,7 @@
 		} else {
 			//Case win
 			$("#gameover").detach();
+			$("#vaudois").detach();
 			$("#win").removeAttr("hidden");
 			$("#4").append("Grâce à toi notre beau Valais se porte mieux !");
 			$("#5").append("Et avec un score pareil :   " + sessionStorage.score);
