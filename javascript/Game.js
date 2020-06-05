@@ -92,7 +92,7 @@ function generateLevel() {
         } else {
             setTimeout(function () {
                 //Stop Game because we finished it
-                location.href = "../EndGame.html";
+                location.href = "./EndGame.html";
                 if (score > highScore) {
                     localStorage.highscore = score;
                     sessionStorage.bestScore = true;
