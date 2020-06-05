@@ -2,76 +2,148 @@
 <html>
 
 <head>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<meta charset="utf-8">
-	<title>Valais Invaders</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js" integrity="sha512-xY2smLIHKirD03vHKDJ2u4pqeHA7OQZZ27EjtqmuhDguxiUvdsOuXMwkg16PQrm9cgTmXtoxA6kwr8KBy3cdcw==" crossorigin=""></script>
+
+    <!-- Load Esri Leaflet Geocoder from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css" integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g==" crossorigin="">
+    <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js" integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA==" crossorigin=""></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="javascript/startmenu.js"></script>
+    <script src="javascript/geolocation.js"></script>
+
+    <meta charset="utf-8">
+    <title>Valais Invaders</title>
 </head>
 
 <body>
-	<div id="vaudois" hidden>
-		<h1>Valais Invaders</h1>
-		<h2>Ca va pas le faire là...</h2>
-		<h4 id="4" class="endMessages">Va voir ailleurs, cul de Vaudois !</h4>
-		<button class="rejouer" type="rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
-	</div>
-	<div id="win" hidden>
-		<h1>Valais Invaders</h1>
-		<h2>Bien joué mon gars ! L'ennemi est vaincu !</h2>
-		<div class="h4">
-			<h4 id="4" class="endMessages"></h4>
-			<h4 id="5" class="endMessages"></h4>
-			<h4 id="6" class="endMessages"></h4>
-		</div>
-		<button class="rejouer" type="rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
-	</div>
-	<div id="gameover" hidden>
-		<h1>Valais Invaders</h1>
-		<h2>C'est perdu ...</h2>
-		<div class="h4">
-			<h4 id="1" class="endMessages"></h4>
-			<h4 id="2" class="endMessages"></h4>
-			<h4 id="3" class="endMessages"></h4>
-		</div>
-		<button class="rejouer" type="rejouer" onclick=window.location.href='StartMenu.html'>On y retourne ou bien ?</button>
-	</div>
 
-</body>
+    <div id="startMenu" hidden>
+        <div id="home">
+            <h1 id="gameTitle">Valais Invaders</h1>
+            <div><input type="text" id="playerName" placeholder="T'es le fils à qui ? (Pseudo)"></input></div>
 
-</html>
-<script>
-	$(document).ready(function() {
-		if (sessionStorage.isVaudois === "true") {
-			$("#win").detach();
-			$("#gameover").detach();
-			$("#vaudois").removeAttr("hidden");
-		}
-		if (sessionStorage.isGameOver === "true") {
-			//Case game over
-			$("#win").detach();
-			$("#vaudois").detach();
-			$("#gameover").removeAttr("hidden");
-			//new highscore
-			if (sessionStorage.bestScore === "true") {
-				$("#1").append("Tcheuuu le record ici !");
-				$("#2").append("Ca c'est beau  : " + sessionStorage.score);
+            <div class="btn-group">
+                <button class='button' id="chooseHeroButton" disabled>Adjeu, on démarre ou bien !</button>
+                <button class='button' id="infosButton">Euille, tu veux voir comment ?</button>
+            </div>
+        </div>
+        <div id="chooseHero" style="height: 100%" hidden>
+            <div id="chooseHeroTitle">
+                <h2 id="chooseHeroTextTitle">Choisis voir ta légende Valaisanne</h2>
+            </div>
+            <table style="width:100%">
+                <tr>
+                    <td class="heroOption">
+                        <h3>Christian Constantin</h3>
+                        <img class="hero" id="constantin" src="img/bus-FCSION.png" draggable="true" ondragstart="drag(event)" />
 
-			} else {
-				$("#1").append("Euille t'as trop fait la pichte ou quoi ?");
-				$("#2").append("C'est quoi ce score ? " + sessionStorage.score);
-				$("#3").append("Tu nous avais habitué à mieux ... Meilleur score : " + localStorage.highscore);
-			}
+                    </td>
+                    <td class="heroOption">
+                        <h3>Oskar Freysinger</h3>
+                        <img class="hero" id="freysinger" src="img/subaru.png" draggable="true" ondragstart="drag(event)" />
+                    </td>
+                    <td class="heroOption">
+                        <h3>Bernard Rappaz</h3>
+                        <img class="hero" id="rappaz" src="img/bus-HIPPIE.png" draggable="true" ondragstart="drag(event)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align: center">
+                        <div id="dropColumn">
+                            <div id="dropSpot" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                <p id="dropHint">Ecoute voir, t'as juste à glisser la bagnole que tu veux ençà</p>
+                            </div>
+                        </div>
 
-			sessionStorage.clear();
-		} else {
-			//Case win
-			$("#gameover").detach();
-			$("#vaudois").detach();
-			$("#win").removeAttr("hidden");
-			$("#4").append("Grâce à toi notre beau Valais se porte mieux !");
-			$("#5").append("Et avec un score pareil :   " + sessionStorage.score);
-			$("#6").append("Les vaudois n'ont qu'à bien se tenir ! ");
-		}
-	});
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class='button' id="backButton">Retour</button>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div id="startGeolocationButtonZone">
+                            <button class='button' id="startGeolocationButton" disabled>T'as où les vaches ?</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-</script>
+        <div id="geolocationTest" style="height: 100%" hidden>
+            <h2>Le "T'as où les vaches ?" Test</h2>
+            <div class="loader" id="geolocLoader"></div>
+            <div id="mapid"></div>
+            <h3 id="resultMessage"> </h3>
+            <button class='button' id="startGameButton" disabled>On part en piste ou quoi ?</button>
+        </div>
+
+        <div id="infosScreen" hidden>
+            <h2 id="infosTitle">Tu veux voir comment ?</h2>
+            <table id="infosTable" style="height: 450px;">
+                <tr>
+                    <td style="width: 50%;">
+                        <h4>Nos terres sont plus que jamais menacées. Des envahisseurs vaudois essaient de s'approprier notre magnifique patrimoine Valaisan. Il est de ton ressort des les en empêcher. Pour se faire, tu devras choisir un héro parmis nos trois légendes : Christian Constantin, Oskar Freysinger et Bernard Rappaz.</h4>
+                        <br />
+
+                        <div id="controlKeys">
+                            <div id=firstline>
+                                <div class="controlKey" id="wKey">
+                                    <p>W</p>
+                                </div>
+                            </div>
+                            <div id="secondline">
+                                <div class="controlKey" id="aKey">
+                                    <p>A</p>
+                                </div>
+                                <div class="controlKey" id="sKey">
+                                    <p>S</p>
+                                </div>
+                                <div class="controlKey" id="dKey">
+                                    <p>D</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                    <td style="width: 50%;">
+                        <h4>Attention, tu devras éviter les tonneaux de "vin" vaudois. Pour te donner des points et de la force, tu pourras ramasser les bouteilles de Fendant, les fromages et les abricots.</h4>
+                        <div id="malusBonusItems">
+                            <div id="malusItems">
+                                <div class="itemImageScore">
+                                    <img style="width: 75%; height: 75%;" src="img/barrel.png" />
+                                    <h2>-<img src="img/coeur.png" /></h2>
+                                </div>
+                                <div class="itemImageScore">
+                                    <img style="width: 75%; height: 75%;" src="img/papet.png" />
+                                    <h2>-50pts</h2>
+                                </div>
+                            </div>
+                            <div id="bonusItems">
+                                <div class="itemImageScore">
+                                    <img style="width: 75%; height: 75%;" src="img/cheese.png" />
+                                    <h2>+20pts</h2>
+                                </div>
+                                <div class="itemImageScore">
+                                    <img style="width: 75%; height: 75%;" src="img/apricot.png" />
+                                    <h2>+20pts</h2>
+                                </div>
+                                <div class="itemImageScore">
+                                    <img style="width: 75%; height: 75%;" src="img/wine.png" />
+                                    <h2>+100pts</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+            <button class='button' id="infosBackButton" style="margin-left: 5px;">Retour</button>
+        </div>
+    </div>
+</body></html>
